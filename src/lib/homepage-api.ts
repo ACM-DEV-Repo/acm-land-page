@@ -70,7 +70,7 @@ export async function setHomepage(
         return false;
       }
     } else if (version === 'v1') {
-      const { data: lp, error: lpErr } = await supabase
+      const { data: lp, error: lpErr } = await (supabase as any)
         .from('bd_cms_lp')
         .select('lp_key, status')
         .eq('lp_key', lpRef)
@@ -80,8 +80,8 @@ export async function setHomepage(
         console.error('[Homepage] LP V1 não encontrada:', lpRef);
         return false;
       }
-      if (lp.status !== 'active') {
-        console.error('[Homepage] LP V1 não está ativa:', lpRef, lp.status);
+      if ((lp as any).status !== 'active') {
+        console.error('[Homepage] LP V1 não está ativa:', lpRef, (lp as any).status);
         return false;
       }
     }

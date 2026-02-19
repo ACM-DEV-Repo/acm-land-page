@@ -34,7 +34,7 @@ export function useCMSHistory(options: UseCMSHistoryOptions) {
   return useQuery({
     queryKey: ['cms-history', tableName, recordId, recordKey, limit],
     queryFn: async () => {
-      let query = supabase
+      let query = (supabase as any)
         .from('bd_cms_history')
         .select('*')
         .eq('table_name', tableName)
@@ -77,7 +77,7 @@ export function useRestoreVersion() {
       const { id, created_at, updated_at, ...cleanData } = dataToRestore;
 
       if (tableName === 'bd_cms_lp') {
-        const { data, error } = await supabase
+        const { data, error } = await (supabase as any)
           .from('bd_cms_lp')
           .update(cleanData)
           .eq('lp_key', recordKey)
@@ -89,7 +89,7 @@ export function useRestoreVersion() {
       }
 
       if (tableName === 'bd_cms_conteudo') {
-        const { data, error } = await supabase
+        const { data, error } = await (supabase as any)
           .from('bd_cms_conteudo')
           .update({ content: cleanData.content })
           .eq('id', recordKey)
