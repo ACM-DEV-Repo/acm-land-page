@@ -342,7 +342,7 @@ export const DesignEditorV2 = memo(({ draft, updateField, updateSection }: V2Sec
                     variant={isActive ? 'default' : 'outline'}
                     className={cn(
                       'w-full mt-2 text-xs',
-                      isActive && 'bg-accent hover:bg-accent/90 text-white'
+                      isActive && 'bg-accent hover:bg-accent/90 text-accent-foreground'
                     )}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -360,8 +360,8 @@ export const DesignEditorV2 = memo(({ draft, updateField, updateSection }: V2Sec
         {/* Indicador de customizacao */}
         {isCustom && (
           <div className="flex items-center gap-2 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
-            <Paintbrush className="h-4 w-4 text-amber-400" />
-            <span className="text-sm text-amber-400">
+            <Paintbrush className="h-4 w-4 text-amber-600" />
+            <span className="text-sm text-amber-600">
               Tema personalizado — cores ajustadas manualmente
             </span>
           </div>

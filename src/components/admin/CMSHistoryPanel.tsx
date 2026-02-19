@@ -72,13 +72,13 @@ export function CMSHistoryPanel({
   const getActionBadge = (action: string) => {
     switch (action) {
       case 'INSERT':
-        return <Badge className="bg-green-500/20 text-green-400 border-green-500/30">Criação</Badge>;
+        return <Badge className="bg-green-500/20 text-green-600 border-green-500/30">Criação</Badge>;
       case 'UPDATE':
-        return <Badge className="bg-blue-500/20 text-blue-400 border-blue-500/30">Alteração</Badge>;
+        return <Badge className="bg-blue-500/20 text-blue-600 border-blue-500/30">Alteração</Badge>;
       case 'DELETE':
-        return <Badge className="bg-red-500/20 text-red-400 border-red-500/30">Remoção</Badge>;
+        return <Badge className="bg-red-500/20 text-red-600 border-red-500/30">Remoção</Badge>;
       case 'BACKUP':
-        return <Badge className="bg-purple-500/20 text-purple-400 border-purple-500/30">Backup</Badge>;
+        return <Badge className="bg-purple-500/20 text-purple-600 border-purple-500/30">Backup</Badge>;
       default:
         return <Badge variant="outline">{action}</Badge>;
     }
@@ -179,7 +179,7 @@ export function CMSHistoryPanel({
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  className="h-7 px-2 text-amber-400 hover:text-amber-300 hover:bg-amber-500/10"
+                                  className="h-7 px-2 text-amber-600 hover:text-amber-300 hover:bg-amber-500/10"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     setRestoreEntry(entry);
@@ -204,7 +204,7 @@ export function CMSHistoryPanel({
                               <div className="mt-3 space-y-2">
                                 {diff.added.length > 0 && (
                                   <div className="flex items-start gap-2">
-                                    <Badge className="bg-green-500/20 text-green-400 text-xs">+</Badge>
+                                    <Badge className="bg-green-500/20 text-green-600 text-xs">+</Badge>
                                     <span className="text-xs text-muted-foreground">
                                       Adicionados: {diff.added.join(', ')}
                                     </span>
@@ -212,7 +212,7 @@ export function CMSHistoryPanel({
                                 )}
                                 {diff.changed.length > 0 && (
                                   <div className="flex items-start gap-2">
-                                    <Badge className="bg-blue-500/20 text-blue-400 text-xs">~</Badge>
+                                    <Badge className="bg-blue-500/20 text-blue-600 text-xs">~</Badge>
                                     <span className="text-xs text-muted-foreground">
                                       Alterados: {diff.changed.join(', ')}
                                     </span>
@@ -220,7 +220,7 @@ export function CMSHistoryPanel({
                                 )}
                                 {diff.removed.length > 0 && (
                                   <div className="flex items-start gap-2">
-                                    <Badge className="bg-red-500/20 text-red-400 text-xs">-</Badge>
+                                    <Badge className="bg-red-500/20 text-red-600 text-xs">-</Badge>
                                     <span className="text-xs text-muted-foreground">
                                       Removidos: {diff.removed.join(', ')}
                                     </span>
@@ -254,7 +254,7 @@ export function CMSHistoryPanel({
       <AlertDialog open={!!restoreEntry} onOpenChange={() => setRestoreEntry(null)}>
         <AlertDialogContent className="bg-card border-border">
           <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center gap-2 text-amber-400">
+            <AlertDialogTitle className="flex items-center gap-2 text-amber-600">
               <AlertTriangle className="h-5 w-5" />
               Confirmar Restauração
             </AlertDialogTitle>

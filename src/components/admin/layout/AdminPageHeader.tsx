@@ -41,7 +41,7 @@ interface AdminPageHeaderProps {
 const iconColorMap = {
   accent: "text-primary bg-primary/10 shadow-sm shadow-primary/5",
   primary: "text-primary bg-primary/10 shadow-sm shadow-primary/5",
-  muted: "text-muted-foreground bg-white/[0.04]",
+  muted: "text-muted-foreground bg-black/[0.04]",
 };
 
 export function AdminPageHeader({

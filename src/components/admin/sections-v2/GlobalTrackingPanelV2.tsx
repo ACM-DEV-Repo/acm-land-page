@@ -124,7 +124,7 @@ export const GlobalTrackingPanelV2 = memo(() => {
       {lpsWithOverride.length > 0 ? (
         <div className="flex items-start gap-2 px-3 py-2.5 rounded-lg bg-blue-500/10 border border-blue-500/20">
           <div className="w-2 h-2 rounded-full bg-blue-500 mt-1.5 shrink-0" />
-          <p className="text-xs text-blue-400">
+          <p className="text-xs text-blue-600">
             <span className="font-medium">LPs com tracking individual:</span>{' '}
             {lpsWithOverride.join(', ')}
           </p>
@@ -132,12 +132,12 @@ export const GlobalTrackingPanelV2 = memo(() => {
       ) : hasAnyGlobal ? (
         <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-green-500/10 border border-green-500/20">
           <div className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
-          <p className="text-xs text-green-400">Pixels globais ativos em todas as LPs</p>
+          <p className="text-xs text-green-600">Pixels globais ativos em todas as LPs</p>
         </div>
       ) : (
         <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-amber-500/10 border border-amber-500/20">
           <div className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
-          <p className="text-xs text-amber-400">Nenhum pixel global configurado</p>
+          <p className="text-xs text-amber-600">Nenhum pixel global configurado</p>
         </div>
       )}
 
@@ -163,9 +163,9 @@ export const GlobalTrackingPanelV2 = memo(() => {
                 />
               </div>
               <p className={`text-[11px] ${
-                validation.status === 'valid' ? 'text-green-400' :
-                validation.status === 'warning' ? 'text-amber-400' :
-                validation.status === 'error' ? 'text-red-400' :
+                validation.status === 'valid' ? 'text-green-600' :
+                validation.status === 'warning' ? 'text-amber-600' :
+                validation.status === 'error' ? 'text-red-600' :
                 'text-muted-foreground/50'
               }`}>
                 {validation.message}

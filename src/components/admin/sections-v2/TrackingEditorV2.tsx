@@ -91,18 +91,18 @@ export const TrackingEditorV2 = memo(({ draft, updateField }: V2SectionEditorPro
                 />
                 {/* Mensagem de status / herança */}
                 {isInheriting ? (
-                  <p className="text-[11px] text-blue-400">
+                  <p className="text-[11px] text-blue-600">
                     ↳ Herdando global: {globalValue}
                   </p>
                 ) : isOverriding && useGlobal && globalValue.trim() ? (
-                  <p className="text-[11px] text-green-400">
+                  <p className="text-[11px] text-green-600">
                     Pixel específico ativo (sobrescreve global)
                   </p>
                 ) : validation.status !== 'empty' ? (
                   <p className={`text-[11px] ${
-                    validation.status === 'valid' ? 'text-green-400' :
-                    validation.status === 'warning' ? 'text-amber-400' :
-                    'text-red-400'
+                    validation.status === 'valid' ? 'text-green-600' :
+                    validation.status === 'warning' ? 'text-amber-600' :
+                    'text-red-600'
                   }`}>
                     {validation.message}
                   </p>
@@ -133,7 +133,7 @@ export const TrackingEditorV2 = memo(({ draft, updateField }: V2SectionEditorPro
               badgeClass = getStatusColor(validation.status);
               badgeText = validation.status === 'valid' ? 'Ativo' : validation.status === 'warning' ? 'Espaços' : 'Inválido';
             } else if (isInheriting) {
-              badgeClass = 'text-blue-400 bg-blue-500/20 border border-blue-500/30';
+              badgeClass = 'text-blue-600 bg-blue-500/20 border border-blue-500/30';
               badgeText = 'Global';
             } else {
               badgeClass = 'text-muted-foreground bg-muted/30';

@@ -32,7 +32,7 @@ export const PreviewDrawerV2 = ({ open, onOpenChange, slug, lpName }: PreviewDra
         hideCloseButton
         className="w-full sm:max-w-[90vw] lg:max-w-[80vw] p-0 bg-background border-l border-border overflow-hidden"
       >
-        <SheetHeader className="p-4 border-b border-border bg-white/5 backdrop-blur-xl">
+        <SheetHeader className="p-4 border-b border-border bg-muted/20 backdrop-blur-xl">
           <div className="flex items-center justify-between">
             {/* Left: Title */}
             <SheetTitle className="text-foreground text-lg font-semibold">
@@ -48,7 +48,7 @@ export const PreviewDrawerV2 = ({ open, onOpenChange, slug, lpName }: PreviewDra
                 className={`rounded-md px-4 h-9 font-medium transition-all duration-200 ${
                   viewMode === 'desktop'
                     ? 'bg-white text-black shadow-md'
-                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-black/[0.06]'
                 }`}
               >
                 <Monitor className="w-4 h-4 mr-2" />
@@ -61,7 +61,7 @@ export const PreviewDrawerV2 = ({ open, onOpenChange, slug, lpName }: PreviewDra
                 className={`rounded-md px-4 h-9 font-medium transition-all duration-200 ${
                   viewMode === 'mobile'
                     ? 'bg-white text-black shadow-md'
-                    : 'text-white/70 hover:text-white hover:bg-white/10'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-black/[0.06]'
                 }`}
               >
                 <Smartphone className="w-4 h-4 mr-2" />
@@ -75,7 +75,7 @@ export const PreviewDrawerV2 = ({ open, onOpenChange, slug, lpName }: PreviewDra
                 variant="ghost"
                 size="icon"
                 onClick={handleRefresh}
-                className="h-9 w-9 rounded-full text-white/70 hover:text-white hover:bg-white/10"
+                className="h-9 w-9 rounded-full text-muted-foreground hover:text-foreground hover:bg-black/[0.06]"
                 title="Atualizar preview"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -84,7 +84,7 @@ export const PreviewDrawerV2 = ({ open, onOpenChange, slug, lpName }: PreviewDra
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-9 w-9 rounded-full text-white/70 hover:text-white hover:bg-white/10"
+                  className="h-9 w-9 rounded-full text-muted-foreground hover:text-foreground hover:bg-black/[0.06]"
                   title="Fechar preview"
                 >
                   <X className="w-4 h-4" />

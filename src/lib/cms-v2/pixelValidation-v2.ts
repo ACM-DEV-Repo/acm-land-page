@@ -61,9 +61,9 @@ export function getPixelLabel(platform: PixelPlatform): string {
 /** Retorna classes de cor Tailwind baseado no status */
 export function getStatusColor(status: PixelStatus): string {
   switch (status) {
-    case 'valid':   return 'text-green-400 bg-green-500/20 border-green-500/30';
-    case 'warning': return 'text-amber-400 bg-amber-500/20 border-amber-500/30';
-    case 'error':   return 'text-red-400 bg-red-500/20 border-red-500/30';
+    case 'valid':   return 'text-green-600 bg-green-500/10 border-green-500/20';
+    case 'warning': return 'text-amber-600 bg-amber-500/10 border-amber-500/20';
+    case 'error':   return 'text-red-600 bg-red-500/10 border-red-500/20';
     case 'empty':   return 'text-muted-foreground bg-muted/30 border-border/20';
   }
 }
@@ -74,7 +74,7 @@ export function getStatusDotColor(status: PixelStatus): string {
     case 'valid':   return 'bg-green-500';
     case 'warning': return 'bg-amber-500';
     case 'error':   return 'bg-red-500';
-    case 'empty':   return 'bg-white/30';
+    case 'empty':   return 'bg-black/20';
   }
 }
 
