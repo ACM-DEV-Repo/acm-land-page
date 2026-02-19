@@ -39,9 +39,9 @@ interface AdminPageHeaderProps {
 }
 
 const iconColorMap = {
-  accent: "text-accent bg-accent/10",
-  primary: "text-primary bg-primary/10",
-  muted: "text-muted-foreground bg-muted",
+  accent: "text-primary bg-primary/10 shadow-sm shadow-primary/5",
+  primary: "text-primary bg-primary/10 shadow-sm shadow-primary/5",
+  muted: "text-muted-foreground bg-white/[0.04]",
 };
 
 export function AdminPageHeader({

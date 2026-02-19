@@ -269,9 +269,9 @@ export default function LPEditorV2() {
 
   return (
     <div className="flex gap-0 min-h-screen">
-      {/* ========== Sidebar interno ========== */}
-      <aside className="w-64 shrink-0 border-r border-border/30 bg-background/50 backdrop-blur-sm sticky top-0 self-start max-h-screen overflow-y-auto">
-        <div className="p-4 border-b border-border/20">
+      {/* ========== Sidebar interno — Apple glass ========== */}
+      <aside className="w-64 shrink-0 admin-glass-sidebar sticky top-0 self-start max-h-screen overflow-y-auto">
+        <div className="p-4 border-b border-white/[0.06]">
           <button
             onClick={() => navigate('/admin/lps')}
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group w-full"
@@ -302,10 +302,10 @@ export default function LPEditorV2() {
               >
                 <CollapsibleTrigger asChild>
                   <button
-                    className={`flex items-center gap-2.5 w-full px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                    className={`flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
                       hasActiveItem && !isOpen
-                        ? 'bg-accent/15 text-accent'
-                        : 'text-foreground/80 hover:bg-accent/5 hover:text-foreground'
+                        ? 'bg-primary/15 text-primary shadow-sm shadow-primary/10'
+                        : 'text-foreground/80 hover:bg-white/[0.04] hover:text-foreground'
                     }`}
                   >
                     <GroupIcon className="h-4 w-4 shrink-0" />
@@ -319,7 +319,7 @@ export default function LPEditorV2() {
                 </CollapsibleTrigger>
 
                 <CollapsibleContent>
-                  <nav className="mt-1 ml-2 space-y-0.5 border-l border-border/30 pl-2">
+                  <nav className="mt-1 ml-2 space-y-0.5 border-l border-white/[0.06] pl-2">
                     {group.items.map((item) => {
                       const ItemIcon = item.icon;
                       const isActive = activeSection === item.key;
@@ -328,13 +328,13 @@ export default function LPEditorV2() {
                         <button
                           key={item.key}
                           onClick={() => setActiveSection(item.key)}
-                          className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-[13px] transition-all duration-150 ${
+                          className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-xl text-[13px] transition-all duration-200 ${
                             isActive
-                              ? 'bg-accent/20 text-accent font-semibold shadow-sm'
-                              : 'text-foreground/70 hover:bg-accent/5 hover:text-foreground'
+                              ? 'bg-primary/15 text-primary font-semibold shadow-sm shadow-primary/10 border border-primary/10'
+                              : 'text-foreground/60 hover:bg-white/[0.04] hover:text-foreground'
                           }`}
                         >
-                          <ItemIcon className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-accent' : 'text-muted-foreground'}`} />
+                          <ItemIcon className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-primary' : 'text-muted-foreground'}`} />
                           <span className="truncate">{item.label}</span>
                         </button>
                       );
@@ -349,7 +349,7 @@ export default function LPEditorV2() {
 
       {/* ========== Area principal ========== */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-center justify-between sticky top-0 z-10 bg-background/80 backdrop-blur-sm py-3 px-6 border-b border-border/20">
+        <div className="flex items-center justify-between sticky top-0 z-10 admin-glass-toolbar py-3 px-6">
           <h1 className="text-lg font-bold text-foreground">
             {SECTIONS.flatMap((g) => g.items).find((i) => i.key === activeSection)?.label ?? 'Editor'}
           </h1>

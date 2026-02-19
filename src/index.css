@@ -5,95 +5,64 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* ================================================================
+   ACM Design System — Apple Store Glass Premium
+   Base escura, glass vitrificado, elegância máxima.
+   Todos os componentes (admin + LP) herdam daqui.
+   ================================================================ */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* ── Core surfaces ── */
+    --background: 150 30% 5%;
+    --foreground: 140 20% 93%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 150 25% 8%;
+    --card-foreground: 140 20% 93%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 150 25% 7%;
+    --popover-foreground: 140 20% 93%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* ── Brand accent (ACM green) ── */
+    --primary: 138 100% 29%;
+    --primary-foreground: 140 100% 97%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 150 20% 14%;
+    --secondary-foreground: 140 20% 88%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 150 15% 12%;
+    --muted-foreground: 148 15% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 138 100% 29%;
+    --accent-foreground: 140 100% 97%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* ── Borders & inputs ── */
+    --border: 150 20% 16%;
+    --input: 150 20% 14%;
+    --ring: 138 80% 35%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* ── Sidebar (dark glass) ── */
+    --sidebar-background: 150 30% 4%;
+    --sidebar-foreground: 140 20% 88%;
+    --sidebar-primary: 138 100% 29%;
+    --sidebar-primary-foreground: 140 100% 97%;
+    --sidebar-accent: 150 20% 10%;
+    --sidebar-accent-foreground: 140 20% 93%;
+    --sidebar-border: 150 20% 12%;
+    --sidebar-ring: 138 80% 35%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* ── Admin glass tokens ── */
+    --admin-glass-bg: 150 25% 7%;
+    --admin-glass-opacity: 0.55;
+    --admin-glass-blur: 24px;
+    --admin-glass-border: 150 30% 18%;
+    --admin-glass-border-opacity: 0.18;
+    --admin-glass-highlight: 0 0% 100%;
   }
 }
 
@@ -103,6 +72,80 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+/* ================================================================
+   Admin Glass System — classes reutilizáveis no admin
+   ================================================================ */
+
+@layer components {
+  /* Glass card primitiva — usada em TODOS os editores de seção */
+  .glass-primitive {
+    background-color: hsl(var(--admin-glass-bg) / var(--admin-glass-opacity));
+    backdrop-filter: blur(var(--admin-glass-blur)) saturate(1.5);
+    -webkit-backdrop-filter: blur(var(--admin-glass-blur)) saturate(1.5);
+    border: 1px solid hsl(var(--admin-glass-border) / var(--admin-glass-border-opacity));
+    box-shadow:
+      0 4px 24px hsl(0 0% 0% / 0.25),
+      inset 0 1px 0 hsl(var(--admin-glass-highlight) / 0.04);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .glass-primitive:hover {
+    background-color: hsl(var(--admin-glass-bg) / calc(var(--admin-glass-opacity) + 0.04));
+    border-color: hsl(var(--admin-glass-border) / calc(var(--admin-glass-border-opacity) + 0.06));
+    box-shadow:
+      0 8px 32px hsl(0 0% 0% / 0.3),
+      inset 0 1px 0 hsl(var(--admin-glass-highlight) / 0.06);
+  }
+
+  /* Input admin — usado em todos os campos do editor */
+  .input-admin {
+    background-color: hsl(var(--admin-glass-bg) / 0.6);
+    backdrop-filter: blur(16px) saturate(1.3);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    border: 1px solid hsl(var(--admin-glass-border) / 0.14);
+    border-radius: var(--radius);
+    color: hsl(var(--foreground));
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .input-admin:focus,
+  .input-admin:focus-within {
+    border-color: hsl(var(--accent));
+    box-shadow: 0 0 0 2px hsl(var(--accent) / 0.15);
+    outline: none;
+  }
+
+  .input-admin::placeholder {
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Admin glass panel — para containers maiores tipo Global Tracking */
+  .admin-glass-panel {
+    background-color: hsl(var(--admin-glass-bg) / 0.45);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid hsl(var(--admin-glass-border) / 0.12);
+    border-radius: calc(var(--radius) * 2);
+    box-shadow: 0 4px 24px hsl(0 0% 0% / 0.2);
+  }
+
+  /* Admin glass sidebar */
+  .admin-glass-sidebar {
+    background-color: hsl(var(--sidebar-background) / 0.85);
+    backdrop-filter: blur(32px) saturate(1.6);
+    -webkit-backdrop-filter: blur(32px) saturate(1.6);
+    border-right: 1px solid hsl(var(--admin-glass-border) / 0.12);
+  }
+
+  /* Admin glass toolbar (sticky top bar) */
+  .admin-glass-toolbar {
+    background-color: hsl(var(--admin-glass-bg) / 0.7);
+    backdrop-filter: blur(24px) saturate(1.5);
+    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    border-bottom: 1px solid hsl(var(--admin-glass-border) / 0.10);
   }
 }
