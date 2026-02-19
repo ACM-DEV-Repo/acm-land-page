@@ -31,9 +31,9 @@ import { toast } from 'sonner';
 // Status config
 // ============================================================
 const statusColors: Record<LPStatus, string> = {
-  active: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/15 shadow-sm shadow-emerald-500/5',
-  draft: 'bg-amber-500/10 text-amber-400 border-amber-500/15 shadow-sm shadow-amber-500/5',
-  archived: 'bg-white/[0.04] text-white/40 border-white/[0.06]',
+  active: 'bg-emerald-500/10 text-emerald-700 border-emerald-500/20 shadow-sm shadow-emerald-500/5',
+  draft: 'bg-amber-500/10 text-amber-700 border-amber-500/20 shadow-sm shadow-amber-500/5',
+  archived: 'bg-black/[0.03] text-black/40 border-black/[0.06]',
 };
 
 const statusLabels: Record<LPStatus, string> = {
@@ -416,7 +416,7 @@ export default function LandingPagesV2() {
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {filteredLps.map((lp) => (
-              <Card key={lp.id} className="group hover:shadow-[0_8px_32px_hsl(0_0%_0%/0.35),inset_0_1px_0_hsl(0_0%_100%/0.06)] hover:border-white/[0.10] transition-all duration-300">
+              <Card key={lp.id} className="group hover:shadow-[0_8px_32px_hsl(220_20%_60%/0.12),inset_0_1px_0_hsl(0_0%_100%/0.9)] hover:border-black/[0.08] transition-all duration-300">
                 <CardContent className="p-5 space-y-4">
                   {/* Top: Name + Status + Time */}
                   <div className="flex items-start justify-between gap-2">
@@ -426,7 +426,7 @@ export default function LandingPagesV2() {
                     </div>
                     <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
                       {isHomepage(lp) && (
-                        <Badge variant="outline" className="text-[11px] px-2 py-0.5 bg-emerald-500/10 text-emerald-400 border-emerald-500/15 shadow-sm shadow-emerald-500/5 gap-1">
+                        <Badge variant="outline" className="text-[11px] px-2 py-0.5 bg-emerald-500/10 text-emerald-700 border-emerald-500/20 shadow-sm shadow-emerald-500/5 gap-1">
                           <Home className="h-3 w-3" />
                           Principal
                         </Badge>
@@ -443,7 +443,7 @@ export default function LandingPagesV2() {
                   </div>
 
                   {/* Slug + Link + Copy */}
-                  <div className="bg-white/[0.03] rounded-xl px-3 py-2.5 border border-white/[0.04]">
+                  <div className="bg-black/[0.02] rounded-xl px-3 py-2.5 border border-black/[0.04]">
                     <InlineSlugEditor
                       lp={lp}
                       onSave={(slug) => handleSlugSave(lp.lp_key, slug)}

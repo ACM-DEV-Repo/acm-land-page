@@ -101,7 +101,7 @@ export const SponsorsEditorV2 = memo(({ draft, updateSection }: V2SectionEditorP
           </Label>
           <Switch
             id="sponsors-enabled"
-            checked={section.enabled ?? false}
+            checked={section?.enabled !== false}
             onCheckedChange={(v) => update({ enabled: v })}
           />
         </div>

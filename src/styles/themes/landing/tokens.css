@@ -87,25 +87,25 @@
   --card-foreground: 222 47% 11%;
 }
 
-/* Theme: ACM Institucional (verde médico #009023 + Glass Apple Premium) */
+/* Theme: ACM Institucional (verde médico high-tech — CLARO, Apple glass) */
 [data-theme="acm"] {
-  --ds-color-bg: 150 44% 7%;
-  --ds-color-surface: 150 38% 11%;
-  --ds-color-glass: 150 32% 9%;
-  --ds-color-text: 140 100% 97%;
-  --ds-color-text-soft: 148 40% 66%;
-  --ds-color-accent: 138 100% 29%;
-  --ds-border-color: 148 48% 20%;
-  --ds-border-opacity: 0.14;
-  --ds-glass-opacity: 0.12;
+  --ds-color-bg: 150 20% 97%;
+  --ds-color-surface: 150 18% 95%;
+  --ds-color-glass: 150 15% 93%;
+  --ds-color-text: 152 40% 8%;
+  --ds-color-text-soft: 152 12% 40%;
+  --ds-color-accent: 145 100% 30%;
+  --ds-border-color: 150 20% 85%;
+  --ds-border-opacity: 0.35;
+  --ds-glass-opacity: 0.50;
   --ds-glass-blur: 36px;
 
-  --background: 150 44% 7%;
-  --foreground: 140 100% 97%;
-  --muted: 150 32% 9%;
-  --muted-foreground: 148 40% 66%;
-  --card: 150 38% 11%;
-  --card-foreground: 140 100% 97%;
+  --background: 150 20% 97%;
+  --foreground: 152 40% 8%;
+  --muted: 150 15% 93%;
+  --muted-foreground: 152 12% 40%;
+  --card: 150 18% 95%;
+  --card-foreground: 152 40% 8%;
 }
 
 /* Theme: Sand Premium (warm sand + green + gold) — Apple glass */
@@ -129,25 +129,25 @@
   --card-foreground: 24 10% 10%;
 }
 
-/* Theme: Saúde Feminina (rosa sofisticado + terracotta — Wellness Premium) */
+/* Theme: Saúde Feminina (rosa sofisticado + terracotta — Wellness CLARO, Apple glass) */
 [data-theme="saude-rosa"] {
-  --ds-color-bg: 330 30% 8%;
-  --ds-color-surface: 330 25% 12%;
-  --ds-color-glass: 330 22% 10%;
-  --ds-color-text: 340 100% 97%;
-  --ds-color-text-soft: 340 30% 73%;
-  --ds-color-accent: 340 56% 60%;
-  --ds-border-color: 330 40% 20%;
-  --ds-border-opacity: 0.13;
-  --ds-glass-opacity: 0.11;
+  --ds-color-bg: 340 30% 97%;
+  --ds-color-surface: 340 25% 95%;
+  --ds-color-glass: 340 20% 93%;
+  --ds-color-text: 340 30% 12%;
+  --ds-color-text-soft: 340 15% 45%;
+  --ds-color-accent: 340 55% 55%;
+  --ds-border-color: 340 20% 85%;
+  --ds-border-opacity: 0.30;
+  --ds-glass-opacity: 0.45;
   --ds-glass-blur: 36px;
 
-  --background: 330 30% 8%;
-  --foreground: 340 100% 97%;
-  --muted: 330 22% 10%;
-  --muted-foreground: 340 30% 73%;
-  --card: 330 25% 12%;
-  --card-foreground: 340 100% 97%;
+  --background: 340 30% 97%;
+  --foreground: 340 30% 12%;
+  --muted: 340 20% 93%;
+  --muted-foreground: 340 15% 45%;
+  --card: 340 25% 95%;
+  --card-foreground: 340 30% 12%;
 }
 
 /* Theme: Midnight Cyan (deep indigo + electric cyan) */

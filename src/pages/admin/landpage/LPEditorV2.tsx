@@ -271,7 +271,7 @@ export default function LPEditorV2() {
     <div className="flex gap-0 min-h-screen">
       {/* ========== Sidebar interno — Apple glass ========== */}
       <aside className="w-64 shrink-0 admin-glass-sidebar sticky top-0 self-start max-h-screen overflow-y-auto">
-        <div className="p-4 border-b border-white/[0.06]">
+        <div className="p-4 border-b border-black/[0.06]">
           <button
             onClick={() => navigate('/admin/lps')}
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group w-full"
@@ -304,8 +304,8 @@ export default function LPEditorV2() {
                   <button
                     className={`flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
                       hasActiveItem && !isOpen
-                        ? 'bg-primary/15 text-primary shadow-sm shadow-primary/10'
-                        : 'text-foreground/80 hover:bg-white/[0.04] hover:text-foreground'
+                        ? 'bg-primary/8 text-primary shadow-sm shadow-primary/5'
+                        : 'text-foreground/70 hover:bg-black/[0.03] hover:text-foreground'
                     }`}
                   >
                     <GroupIcon className="h-4 w-4 shrink-0" />
@@ -319,7 +319,7 @@ export default function LPEditorV2() {
                 </CollapsibleTrigger>
 
                 <CollapsibleContent>
-                  <nav className="mt-1 ml-2 space-y-0.5 border-l border-white/[0.06] pl-2">
+                  <nav className="mt-1 ml-2 space-y-0.5 border-l border-black/[0.06] pl-2">
                     {group.items.map((item) => {
                       const ItemIcon = item.icon;
                       const isActive = activeSection === item.key;
@@ -330,8 +330,8 @@ export default function LPEditorV2() {
                           onClick={() => setActiveSection(item.key)}
                           className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-xl text-[13px] transition-all duration-200 ${
                             isActive
-                              ? 'bg-primary/15 text-primary font-semibold shadow-sm shadow-primary/10 border border-primary/10'
-                              : 'text-foreground/60 hover:bg-white/[0.04] hover:text-foreground'
+                              ? 'bg-primary/8 text-primary font-semibold shadow-sm shadow-primary/5 border border-primary/10'
+                              : 'text-foreground/60 hover:bg-black/[0.03] hover:text-foreground'
                           }`}
                         >
                           <ItemIcon className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-primary' : 'text-muted-foreground'}`} />

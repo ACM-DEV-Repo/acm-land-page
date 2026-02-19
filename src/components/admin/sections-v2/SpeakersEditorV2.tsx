@@ -84,7 +84,7 @@ export const SpeakersEditorV2 = memo(({ draft, updateSection }: V2SectionEditorP
           </Label>
           <Switch
             id="speakers-enabled"
-            checked={section.enabled ?? false}
+            checked={section?.enabled !== false}
             onCheckedChange={(v) => update({ enabled: v })}
           />
         </div>
