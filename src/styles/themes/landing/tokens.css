@@ -87,25 +87,25 @@
   --card-foreground: 222 47% 11%;
 }
 
-/* Theme: Emerald Forest (deep moss + bright emerald) — Apple glass */
-[data-theme="emerald"] {
-  --ds-color-bg: 150 40% 10%;
-  --ds-color-surface: 150 35% 14%;
-  --ds-color-glass: 150 30% 12%;
-  --ds-color-text: 152 76% 96%;
-  --ds-color-text-soft: 142 77% 73%;
-  --ds-color-accent: 160 59% 51%;
-  --ds-border-color: 152 40% 21%;
-  --ds-border-opacity: 0.12;
-  --ds-glass-opacity: 0.10;
-  --ds-glass-blur: 34px;
+/* Theme: ACM Institucional (verde médico #009023 + Glass Apple Premium) */
+[data-theme="acm"] {
+  --ds-color-bg: 150 44% 7%;
+  --ds-color-surface: 150 38% 11%;
+  --ds-color-glass: 150 32% 9%;
+  --ds-color-text: 140 100% 97%;
+  --ds-color-text-soft: 148 40% 66%;
+  --ds-color-accent: 138 100% 29%;
+  --ds-border-color: 148 48% 20%;
+  --ds-border-opacity: 0.14;
+  --ds-glass-opacity: 0.12;
+  --ds-glass-blur: 36px;
 
-  --background: 150 40% 10%;
-  --foreground: 152 76% 96%;
-  --muted: 150 30% 12%;
-  --muted-foreground: 142 77% 73%;
-  --card: 150 35% 14%;
-  --card-foreground: 152 76% 96%;
+  --background: 150 44% 7%;
+  --foreground: 140 100% 97%;
+  --muted: 150 32% 9%;
+  --muted-foreground: 148 40% 66%;
+  --card: 150 38% 11%;
+  --card-foreground: 140 100% 97%;
 }
 
 /* Theme: Sand Premium (warm sand + green + gold) — Apple glass */
@@ -129,25 +129,25 @@
   --card-foreground: 24 10% 10%;
 }
 
-/* Theme: Purple Night (indigo + violet) — Apple glass */
-[data-theme="purple"] {
-  --ds-color-bg: 271 40% 11%;
-  --ds-color-surface: 271 35% 16%;
-  --ds-color-glass: 271 30% 13%;
-  --ds-color-text: 270 100% 98%;
-  --ds-color-text-soft: 263 70% 81%;
-  --ds-color-accent: 271 91% 65%;
-  --ds-border-color: 271 40% 23%;
-  --ds-border-opacity: 0.12;
-  --ds-glass-opacity: 0.10;
-  --ds-glass-blur: 34px;
+/* Theme: Saúde Feminina (rosa sofisticado + terracotta — Wellness Premium) */
+[data-theme="saude-rosa"] {
+  --ds-color-bg: 330 30% 8%;
+  --ds-color-surface: 330 25% 12%;
+  --ds-color-glass: 330 22% 10%;
+  --ds-color-text: 340 100% 97%;
+  --ds-color-text-soft: 340 30% 73%;
+  --ds-color-accent: 340 56% 60%;
+  --ds-border-color: 330 40% 20%;
+  --ds-border-opacity: 0.13;
+  --ds-glass-opacity: 0.11;
+  --ds-glass-blur: 36px;
 
-  --background: 271 40% 11%;
-  --foreground: 270 100% 98%;
-  --muted: 271 30% 13%;
-  --muted-foreground: 263 70% 81%;
-  --card: 271 35% 16%;
-  --card-foreground: 270 100% 98%;
+  --background: 330 30% 8%;
+  --foreground: 340 100% 97%;
+  --muted: 330 22% 10%;
+  --muted-foreground: 340 30% 73%;
+  --card: 330 25% 12%;
+  --card-foreground: 340 100% 97%;
 }
 
 /* Theme: Midnight Cyan (deep indigo + electric cyan) */
