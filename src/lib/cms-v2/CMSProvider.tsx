@@ -2,8 +2,8 @@ import { createContext, useContext, useEffect, useState, useCallback, useRef, Re
 import { LPContent } from './cms-types';
 import { fetchLPByRef } from './cms-api';
 
-const CACHE_TTL_MS = 5 * 60 * 1000;
-const REFETCH_COOLDOWN_MS = 30_000;
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutos
+const REFETCH_COOLDOWN_MS = 30_000; // 30s cooldown entre fetches
 
 interface CacheEntryV2 {
   content: LPContent;
@@ -15,6 +15,7 @@ const getCacheV2 = (lpKey: string): LPContent | null => {
     const raw = localStorage.getItem(`cms_v2_cache_${lpKey}`);
     if (!raw) return null;
     const entry: CacheEntryV2 = JSON.parse(raw);
+    // Validar TTL — cache expirado é descartado
     if (!entry.timestamp || Date.now() - entry.timestamp > CACHE_TTL_MS) {
       localStorage.removeItem(`cms_v2_cache_${lpKey}`);
       return null;
@@ -31,7 +32,7 @@ const setCacheV2 = (lpKey: string, content: LPContent): void => {
     const entry: CacheEntryV2 = { content, timestamp: Date.now() };
     localStorage.setItem(`cms_v2_cache_${lpKey}`, JSON.stringify(entry));
   } catch {
-    // Storage full or blocked
+    // Storage full or blocked, ignore
   }
 };
 
@@ -45,6 +46,11 @@ interface CMSContextValueV2 {
 
 const CMSContextV2 = createContext<CMSContextValueV2 | undefined>(undefined);
 
+/**
+ * CMSProviderV2 — 100% isolado da V1
+ * Zero imports de @/lib/cms ou @/lib/cms-types
+ * Carrega content direto de bd_cms_lp_v2 e aplica design tokens via CSS variables
+ */
 export const CMSProviderV2 = ({ children, lpKey }: { children: ReactNode; lpKey: string }) => {
   const [content, setContent] = useState<LPContent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -53,6 +59,7 @@ export const CMSProviderV2 = ({ children, lpKey }: { children: ReactNode; lpKey:
 
   const load = useCallback(async (): Promise<void> => {
     lastFetchRef.current = Date.now();
+    // Retry com backoff exponencial (3 tentativas)
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
         const record = await fetchLPByRef(lpKey);
@@ -74,13 +81,18 @@ export const CMSProviderV2 = ({ children, lpKey }: { children: ReactNode; lpKey:
 
   useEffect(() => {
     setIsLoading(true);
+
+    // UX Speed: load from cache first (com TTL)
     const cached = getCacheV2(lpKey);
     if (cached) {
       setContent(cached);
     }
+
+    // Truth: always fetch from DB and overwrite
     load().finally(() => setIsLoading(false));
   }, [lpKey, load]);
 
+  // Refetch quando o usuário volta pro tab (com cooldown de 30s)
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState !== 'visible') return;
@@ -92,12 +104,14 @@ export const CMSProviderV2 = ({ children, lpKey }: { children: ReactNode; lpKey:
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, [load]);
 
+  // Apply design tokens as CSS variables — ALL editor fields
   useEffect(() => {
     if (!content?.design) return;
 
     const { design } = content;
     const root = document.documentElement;
 
+    // ── Hex → HSL converter ──
     const hexToHSL = (hex: string): string | null => {
       if (!hex || !hex.startsWith('#')) return null;
       let r = 0, g = 0, b = 0;
@@ -126,6 +140,7 @@ export const CMSProviderV2 = ({ children, lpKey }: { children: ReactNode; lpKey:
       return `${Math.round(h * 360)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
     };
 
+    // Adjust lightness of an HSL triplet string by a delta (-10 = darker, +10 = lighter)
     const adjustHSL = (hsl: string, deltaL: number): string => {
       const parts = hsl.match(/(\d+)\s+(\d+)%\s+(\d+)%/);
       if (!parts) return hsl;
@@ -139,6 +154,7 @@ export const CMSProviderV2 = ({ children, lpKey }: { children: ReactNode; lpKey:
       return hsl;
     };
 
+    // ── DS tokens ──
     if (design.primaryColor) setHSLVar('--ds-color-accent', design.primaryColor);
     if (design.buttonColor) setHSLVar('--ds-color-btn', design.buttonColor);
     if (design.titleColor) setHSLVar('--ds-color-title', design.titleColor);
@@ -147,6 +163,7 @@ export const CMSProviderV2 = ({ children, lpKey }: { children: ReactNode; lpKey:
     if (design.iconColor) setHSLVar('--ds-color-icon', design.iconColor);
     if (design.starColor) setHSLVar('--ds-color-star', design.starColor);
 
+    // Background → DS + Tailwind bridge
     const bgHSL = design.backgroundColor ? setHSLVar('--ds-color-bg', design.backgroundColor) : null;
     if (bgHSL) {
       root.style.setProperty('--background', bgHSL);
@@ -156,6 +173,7 @@ export const CMSProviderV2 = ({ children, lpKey }: { children: ReactNode; lpKey:
       root.style.setProperty('--muted', adjustHSL(bgHSL, 10));
     }
 
+    // Text primary → DS + Tailwind bridge
     const textHex = design.textPrimaryColor || design.titleColor;
     if (textHex) {
       const textHSL = setHSLVar('--ds-color-text', textHex);
@@ -165,6 +183,7 @@ export const CMSProviderV2 = ({ children, lpKey }: { children: ReactNode; lpKey:
       }
     }
 
+    // Text secondary → DS + Tailwind bridge
     if (design.textSecondaryColor) {
       const softHSL = setHSLVar('--ds-color-text-soft', design.textSecondaryColor);
       if (softHSL) {
@@ -172,10 +191,12 @@ export const CMSProviderV2 = ({ children, lpKey }: { children: ReactNode; lpKey:
       }
     }
 
+    // Glass intensity
     if (design.glassIntensity !== undefined) {
       root.style.setProperty('--ds-glass-opacity', design.glassIntensity.toString());
     }
 
+    // Card roundness — aligned with editor values (leve/medio/full)
     const roundnessMap: Record<string, string> = {
       leve: '0.5rem',
       medio: '1rem',
@@ -185,29 +206,34 @@ export const CMSProviderV2 = ({ children, lpKey }: { children: ReactNode; lpKey:
       root.style.setProperty('--ds-radius', roundnessMap[design.cardRoundness]);
     }
 
+    // Adaptive shadows & button text — light themes get different treatment
     if (bgHSL) {
       const parts = bgHSL.match(/(\d+)\s+(\d+)%\s+(\d+)%/);
       const bgLightness = parts ? parseInt(parts[3], 10) : 50;
       const isLight = bgLightness > 60;
       const bgHue = parts ? parts[1] : '0';
 
+      // Button text: white for light themes (btn bg is dark), bg color for dark themes (btn bg is bright)
       root.style.setProperty('--ds-color-btn-text', isLight ? '0 0% 100%' : bgHSL);
 
+      // Shadows: stronger for light themes for card visibility
       const shadowColor = isLight
-        ? `${bgHue} 30% 50%`
-        : '0 0% 0%';
+        ? `${bgHue} 30% 50%`   // warm tinted shadow for light themes
+        : '0 0% 0%';           // pure black for dark themes
       const shadowSm = isLight ? 0.14 : 0.35;
       const shadowLg = isLight ? 0.22 : 0.45;
       root.style.setProperty('--ds-shadow', `0 4px 24px hsl(${shadowColor} / ${shadowSm})`);
       root.style.setProperty('--ds-shadow-lg', `0 12px 40px hsl(${shadowColor} / ${shadowLg})`);
     }
 
+    // Border opacity — lighter for light themes
     if (bgHSL) {
       const parts = bgHSL.match(/(\d+)\s+(\d+)%\s+(\d+)%/);
       const bgLightness = parts ? parseInt(parts[3], 10) : 50;
       root.style.setProperty('--ds-border-opacity', bgLightness > 60 ? '0.5' : '0.14');
     }
 
+    // Font family
     if (design.fontFamily) {
       root.style.setProperty('--ds-font-family', design.fontFamily);
       document.body.style.fontFamily = design.fontFamily;

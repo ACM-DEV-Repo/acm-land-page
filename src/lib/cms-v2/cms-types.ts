@@ -332,7 +332,7 @@ export interface TrackingSettings {
   tiktok: string;
   linkedin: string;
   gtm: string;
-  useGlobal?: boolean;
+  useGlobal?: boolean; // Se true, adiciona os pixels globais além dos locais
 }
 
 // ========== Conversion Settings ==========
@@ -341,7 +341,7 @@ export interface CountdownSettings {
   mode: 'deadline' | 'evergreen' | 'roundHour';
   deadline?: string;
   evergreenHours?: number;
-  roundHourAhead?: number;
+  roundHourAhead?: number;   // quantas horas cheias a frente (default 2)
   label: string;
   showInPlans: boolean;
   showInCtaFinal: boolean;
@@ -434,14 +434,14 @@ export type LPStatus = "active" | "draft" | "archived";
 
 export interface LPRecord {
   id: string;
-  lp_key: string;
-  name: string;
-  slug: string;
-  status: LPStatus;
-  content: LPContent;
+  lp_key: string; // ex: "lp01", "home", "promo-01"
+  name: string; // Nome interno
+  slug: string; // ex: "/" ou "/promo"
+  status: LPStatus; // Status da LP
+  content: LPContent; // O conteúdo completo isolado
   created_at: string;
   updated_at: string;
 }
 
 // ========== Context / Storage ==========
-export type LPId = string;
+export type LPId = string; // Agora é dinâmico, não mais 'lp01' | 'lp02'

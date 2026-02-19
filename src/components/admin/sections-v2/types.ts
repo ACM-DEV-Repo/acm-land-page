@@ -1,5 +1,9 @@
 import { LPContent } from '@/lib/cms-v2/cms-types';
 
+/**
+ * Props padrão para todos os editores de seção V2.
+ * Sem herança, sem editContext, sem clearLPOverride — modelo linear puro.
+ */
 export interface V2SectionEditorProps {
   draft: LPContent;
   lpKey: string;

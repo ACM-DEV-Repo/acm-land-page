@@ -1,83 +1,390 @@
-import { useParams } from "react-router-dom";
-import { useAdminEditorV2Production } from "@/hooks/cms/useAdminEditorV2Production";
-import { AdminPageContainer } from "@/components/admin/layout/AdminPageContainer";
-import { AdminPageHeader } from "@/components/admin/layout/AdminPageHeader";
-import { SaveStatusHUDV2 } from "@/components/admin/shared-v2/SaveStatusHUDV2";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState, useEffect } from 'react';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
+import { useAdminEditorV2Production } from '@/hooks/cms/useAdminEditorV2Production';
+import { Button } from '@/components/ui/button';
 import {
-  HeroEditorV2, BenefitsEditorV2, HowItWorksEditorV2, BeforeAfterEditorV2, ProcessEditorV2,
-  ForWhomEditorV2, ServicesEditorV2, PlansEditorV2, VideoEditorV2, VideoCarouselEditorV2,
-  WhyChooseEditorV2, TestimonialsEditorV2, AboutEditorV2, FAQEditorV2, CTAFinalEditorV2,
-  ContactEditorV2, KPIsEditorV2, FooterEditorV2, FormEditorV2, TrackingEditorV2,
-  SEOEditorV2, DesignEditorV2, SectionOrderEditorV2, FloatingWhatsappEditorV2,
-  ConversionEditorV2, GlobalMenuEditorV2, SpeakersEditorV2, SponsorsEditorV2
-} from "@/components/admin/sections-v2";
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
+import {
+  Save,
+  Eye,
+  RefreshCw,
+  AlertCircle,
+  Loader2,
+  ArrowLeft,
+  ChevronRight,
+  ListOrdered,
+  MessageSquare,
+  Palette,
+  Search,
+  Target,
+  Zap,
+  Sparkles,
+  Award,
+  Compass,
+  CreditCard,
+  MessageCircle,
+  BarChart3,
+  Info,
+  Mail,
+  ImageIcon,
+  Route,
+  ShoppingBag,
+  Video,
+  PlayCircle,
+  CheckCircle2,
+  Megaphone,
+  HelpCircle,
+  ClipboardList,
+  Users,
+  LayoutGrid,
+  History,
+  Menu,
+  Mic2,
+  Trophy,
+} from 'lucide-react';
+import { toast } from 'sonner';
+import { SaveStatusHUDV2 } from '@/components/admin/shared-v2/SaveStatusHUDV2';
+import type { LucideIcon } from 'lucide-react';
+import { CMSHistoryPanel } from '@/components/admin/CMSHistoryPanel';
+import { PreviewDrawerV2 } from '@/components/admin/preview-v2/PreviewDrawerV2';
 
-const sectionTabs = [
-  { key: 'hero', label: 'Hero' }, { key: 'benefits', label: 'Benefícios' }, { key: 'howItWorks', label: 'Como Funciona' },
-  { key: 'beforeAfter', label: 'Antes/Depois' }, { key: 'process', label: 'Processo' }, { key: 'forWhom', label: 'Para Quem' },
-  { key: 'services', label: 'Serviços' }, { key: 'plans', label: 'Planos' }, { key: 'video', label: 'Vídeo' },
-  { key: 'videoCarousel', label: 'Vídeos' }, { key: 'whyChoose', label: 'Por Que' }, { key: 'testimonials', label: 'Depoimentos' },
-  { key: 'kpis', label: 'KPIs' }, { key: 'about', label: 'Sobre' }, { key: 'faq', label: 'FAQ' },
-  { key: 'ctaFinal', label: 'CTA Final' }, { key: 'contact', label: 'Contato' }, { key: 'form', label: 'Formulário' },
-  { key: 'speakers', label: 'Palestrantes' }, { key: 'sponsors', label: 'Patrocinadores' }, { key: 'footer', label: 'Rodapé' },
-  { key: 'design', label: 'Design' }, { key: 'seo', label: 'SEO' }, { key: 'tracking', label: 'Tracking' },
-  { key: 'order', label: 'Ordem' }, { key: 'whatsapp', label: 'WhatsApp' }, { key: 'conversion', label: 'Conversão' },
-  { key: 'globalMenu', label: 'Menu' },
+import {
+  HeroEditorV2,
+  BenefitsEditorV2,
+  HowItWorksEditorV2,
+  BeforeAfterEditorV2,
+  ProcessEditorV2,
+  ForWhomEditorV2,
+  ServicesEditorV2,
+  PlansEditorV2,
+  VideoEditorV2,
+  VideoCarouselEditorV2,
+  WhyChooseEditorV2,
+  TestimonialsEditorV2,
+  AboutEditorV2,
+  FAQEditorV2,
+  CTAFinalEditorV2,
+  ContactEditorV2,
+  KPIsEditorV2,
+  FooterEditorV2,
+  FormEditorV2,
+  TrackingEditorV2,
+  SEOEditorV2,
+  DesignEditorV2,
+  SectionOrderEditorV2,
+  FloatingWhatsappEditorV2,
+  ConversionEditorV2,
+  GlobalMenuEditorV2,
+  SpeakersEditorV2,
+  SponsorsEditorV2,
+} from '@/components/admin/sections-v2';
+
+// ============================================================
+// Definicao das secoes do sidebar interno
+// ============================================================
+interface SectionItem {
+  key: string;
+  label: string;
+  icon: LucideIcon;
+}
+
+interface SectionGroup {
+  group: string;
+  icon: LucideIcon;
+  defaultOpen: boolean;
+  items: SectionItem[];
+}
+
+const SECTIONS: SectionGroup[] = [
+  {
+    group: 'Configuracoes',
+    icon: Palette,
+    defaultOpen: true,
+    items: [
+      { key: 'sectionOrder', label: 'Ordem das Secoes', icon: ListOrdered },
+      { key: 'conversion', label: 'Conversao', icon: Zap },
+      { key: 'globalMenu', label: 'Menu Global', icon: Menu },
+      { key: 'floatingWhatsapp', label: 'CTAs Flutuantes', icon: MessageSquare },
+      { key: 'design', label: 'Design', icon: Palette },
+      { key: 'seo', label: 'SEO', icon: Search },
+      { key: 'tracking', label: 'Rastreamento', icon: Target },
+      { key: 'history', label: 'Historico', icon: History },
+    ],
+  },
+  {
+    group: 'Secoes',
+    icon: LayoutGrid,
+    defaultOpen: true,
+    items: [
+      { key: 'hero', label: 'Hero', icon: Sparkles },
+      { key: 'benefits', label: 'Beneficios', icon: Award },
+      { key: 'howItWorks', label: 'Como Funciona', icon: Compass },
+      { key: 'plans', label: 'Planos', icon: CreditCard },
+      { key: 'testimonials', label: 'Depoimentos', icon: MessageCircle },
+      { key: 'kpis', label: 'KPIs', icon: BarChart3 },
+      { key: 'speakers', label: 'Palestrantes', icon: Mic2 },
+      { key: 'sponsors', label: 'Patrocinadores', icon: Trophy },
+      { key: 'about', label: 'Sobre', icon: Info },
+      { key: 'contact', label: 'Contato', icon: Mail },
+      { key: 'beforeAfter', label: 'Antes e Depois', icon: ImageIcon },
+      { key: 'process', label: 'Processo', icon: Route },
+      { key: 'services', label: 'Servicos', icon: ShoppingBag },
+      { key: 'video', label: 'Video', icon: Video },
+      { key: 'videoCarousel', label: 'Carrossel Videos', icon: PlayCircle },
+      { key: 'whyChoose', label: 'Por que Escolher', icon: CheckCircle2 },
+      { key: 'ctaFinal', label: 'CTA Final', icon: Megaphone },
+      { key: 'faq', label: 'FAQ', icon: HelpCircle },
+      { key: 'form', label: 'Formulario', icon: ClipboardList },
+      { key: 'forWhom', label: 'Para Quem', icon: Users },
+      { key: 'footer', label: 'Footer', icon: LayoutGrid },
+    ],
+  },
 ];
 
+// ============================================================
+// EDITOR V2 — Sidebar + Area principal
+// ============================================================
 export default function LPEditorV2() {
   const { lpKey } = useParams<{ lpKey: string }>();
-  const { draft, isDirty, isLoading, saveStatus, saveNow, updateField, updateNestedField, updateSection } = useAdminEditorV2Production(lpKey!);
+  const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState('hero');
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
+    const initial: Record<string, boolean> = {};
+    SECTIONS.forEach((g) => {
+      initial[g.group] = g.defaultOpen;
+    });
+    return initial;
+  });
 
-  if (isLoading || !draft) return <div className="flex items-center justify-center h-screen"><p className="text-muted-foreground">Carregando editor...</p></div>;
+  if (!lpKey) {
+    return <Navigate to="/admin/lps" replace />;
+  }
 
-  const props = { draft, lpKey: lpKey!, updateField, updateNestedField, updateSection };
+  const {
+    draft,
+    isDirty,
+    isLoading,
+    saveStatus,
+    lastSavedAt,
+    updateField,
+    updateNestedField,
+    updateSection,
+    saveNow,
+  } = useAdminEditorV2Production(lpKey);
 
-  const renderEditor = (key: string) => {
-    switch (key) {
-      case 'hero': return <HeroEditorV2 {...props} />;
-      case 'benefits': return <BenefitsEditorV2 {...props} />;
-      case 'howItWorks': return <HowItWorksEditorV2 {...props} />;
-      case 'beforeAfter': return <BeforeAfterEditorV2 {...props} />;
-      case 'process': return <ProcessEditorV2 {...props} />;
-      case 'forWhom': return <ForWhomEditorV2 {...props} />;
-      case 'services': return <ServicesEditorV2 {...props} />;
-      case 'plans': return <PlansEditorV2 {...props} />;
-      case 'video': return <VideoEditorV2 {...props} />;
-      case 'videoCarousel': return <VideoCarouselEditorV2 {...props} />;
-      case 'whyChoose': return <WhyChooseEditorV2 {...props} />;
-      case 'testimonials': return <TestimonialsEditorV2 {...props} />;
-      case 'kpis': return <KPIsEditorV2 {...props} />;
-      case 'about': return <AboutEditorV2 {...props} />;
-      case 'faq': return <FAQEditorV2 {...props} />;
-      case 'ctaFinal': return <CTAFinalEditorV2 {...props} />;
-      case 'contact': return <ContactEditorV2 {...props} />;
-      case 'form': return <FormEditorV2 {...props} />;
-      case 'speakers': return <SpeakersEditorV2 {...props} />;
-      case 'sponsors': return <SponsorsEditorV2 {...props} />;
-      case 'footer': return <FooterEditorV2 {...props} />;
-      case 'design': return <DesignEditorV2 {...props} />;
-      case 'seo': return <SEOEditorV2 {...props} />;
-      case 'tracking': return <TrackingEditorV2 {...props} />;
-      case 'order': return <SectionOrderEditorV2 {...props} />;
-      case 'whatsapp': return <FloatingWhatsappEditorV2 {...props} />;
-      case 'conversion': return <ConversionEditorV2 {...props} />;
-      case 'globalMenu': return <GlobalMenuEditorV2 {...props} />;
-      default: return null;
+  const handleManualSave = async () => {
+    const success = await saveNow();
+    if (success) {
+      toast.success('Salvo com sucesso!');
+    } else {
+      toast.error('Erro ao salvar');
+    }
+  };
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isDirty) {
+        e.preventDefault();
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isDirty]);
+
+  const toggleGroup = (group: string) => {
+    setOpenGroups((prev) => ({ ...prev, [group]: !prev[group] }));
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-muted-foreground">Carregando editor...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!draft) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+        <AlertCircle className="h-12 w-12 text-destructive" />
+        <p className="text-muted-foreground">LP nao encontrada: {lpKey}</p>
+        <Button variant="outline" onClick={() => window.location.reload()}>
+          <RefreshCw className="h-4 w-4 mr-2" />
+          Tentar novamente
+        </Button>
+      </div>
+    );
+  }
+
+  const editorProps = { draft, lpKey, updateField, updateNestedField, updateSection };
+
+  const renderEditor = () => {
+    switch (activeSection) {
+      case 'hero': return <HeroEditorV2 {...editorProps} />;
+      case 'benefits': return <BenefitsEditorV2 {...editorProps} />;
+      case 'howItWorks': return <HowItWorksEditorV2 {...editorProps} />;
+      case 'beforeAfter': return <BeforeAfterEditorV2 {...editorProps} />;
+      case 'process': return <ProcessEditorV2 {...editorProps} />;
+      case 'forWhom': return <ForWhomEditorV2 {...editorProps} />;
+      case 'services': return <ServicesEditorV2 {...editorProps} />;
+      case 'plans': return <PlansEditorV2 {...editorProps} />;
+      case 'video': return <VideoEditorV2 {...editorProps} />;
+      case 'videoCarousel': return <VideoCarouselEditorV2 {...editorProps} />;
+      case 'whyChoose': return <WhyChooseEditorV2 {...editorProps} />;
+      case 'testimonials': return <TestimonialsEditorV2 {...editorProps} />;
+      case 'about': return <AboutEditorV2 {...editorProps} />;
+      case 'faq': return <FAQEditorV2 {...editorProps} />;
+      case 'ctaFinal': return <CTAFinalEditorV2 {...editorProps} />;
+      case 'contact': return <ContactEditorV2 {...editorProps} />;
+      case 'kpis': return <KPIsEditorV2 {...editorProps} />;
+      case 'footer': return <FooterEditorV2 {...editorProps} />;
+      case 'form': return <FormEditorV2 {...editorProps} />;
+      case 'speakers': return <SpeakersEditorV2 {...editorProps} />;
+      case 'sponsors': return <SponsorsEditorV2 {...editorProps} />;
+      case 'tracking': return <TrackingEditorV2 {...editorProps} />;
+      case 'seo': return <SEOEditorV2 {...editorProps} />;
+      case 'design': return <DesignEditorV2 {...editorProps} />;
+      case 'sectionOrder': return <SectionOrderEditorV2 {...editorProps} />;
+      case 'conversion': return <ConversionEditorV2 {...editorProps} />;
+      case 'globalMenu': return <GlobalMenuEditorV2 {...editorProps} />;
+      case 'floatingWhatsapp': return <FloatingWhatsappEditorV2 {...editorProps} />;
+      case 'history': return (
+        <CMSHistoryPanel
+          tableName="bd_cms_lp_v2"
+          recordKey={lpKey}
+          title="Historico de Versoes"
+          description="Todas as alteracoes salvas desta LP"
+        />
+      );
+      default: return <HeroEditorV2 {...editorProps} />;
     }
   };
 
   return (
-    <AdminPageContainer type="editor">
-      <AdminPageHeader title="Editor LP" description={lpKey} />
-      <SaveStatusHUDV2 status={saveStatus} lastSaved={null} />
-      <Tabs defaultValue="hero" className="mt-4">
-        <TabsList className="flex flex-wrap h-auto gap-1 bg-transparent">
-          {sectionTabs.map(t => (<TabsTrigger key={t.key} value={t.key} className="text-xs">{t.label}</TabsTrigger>))}
-        </TabsList>
-        {sectionTabs.map(t => (<TabsContent key={t.key} value={t.key}>{renderEditor(t.key)}</TabsContent>))}
-      </Tabs>
-    </AdminPageContainer>
+    <div className="flex gap-0 min-h-screen">
+      {/* ========== Sidebar interno ========== */}
+      <aside className="w-64 shrink-0 border-r border-border/30 bg-background/50 backdrop-blur-sm sticky top-0 self-start max-h-screen overflow-y-auto">
+        <div className="p-4 border-b border-border/20">
+          <button
+            onClick={() => navigate('/admin/lps')}
+            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors group w-full"
+          >
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
+            <span>Voltar ao Dashboard</span>
+          </button>
+          <div className="mt-3">
+            <h2 className="text-sm font-bold text-foreground truncate">{lpKey}</h2>
+            <SaveStatusHUDV2
+              status={saveStatus}
+              lastSaved={lastSavedAt}
+            />
+          </div>
+        </div>
+
+        <div className="p-3 space-y-1">
+          {SECTIONS.map((group) => {
+            const GroupIcon = group.icon;
+            const isOpen = openGroups[group.group] ?? true;
+            const hasActiveItem = group.items.some((item) => item.key === activeSection);
+
+            return (
+              <Collapsible
+                key={group.group}
+                open={isOpen}
+                onOpenChange={() => toggleGroup(group.group)}
+              >
+                <CollapsibleTrigger asChild>
+                  <button
+                    className={`flex items-center gap-2.5 w-full px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                      hasActiveItem && !isOpen
+                        ? 'bg-accent/15 text-accent'
+                        : 'text-foreground/80 hover:bg-accent/5 hover:text-foreground'
+                    }`}
+                  >
+                    <GroupIcon className="h-4 w-4 shrink-0" />
+                    <span className="flex-1 text-left">{group.group}</span>
+                    <ChevronRight
+                      className={`h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform duration-200 ${
+                        isOpen ? 'rotate-90' : ''
+                      }`}
+                    />
+                  </button>
+                </CollapsibleTrigger>
+
+                <CollapsibleContent>
+                  <nav className="mt-1 ml-2 space-y-0.5 border-l border-border/30 pl-2">
+                    {group.items.map((item) => {
+                      const ItemIcon = item.icon;
+                      const isActive = activeSection === item.key;
+
+                      return (
+                        <button
+                          key={item.key}
+                          onClick={() => setActiveSection(item.key)}
+                          className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-lg text-[13px] transition-all duration-150 ${
+                            isActive
+                              ? 'bg-accent/20 text-accent font-semibold shadow-sm'
+                              : 'text-foreground/70 hover:bg-accent/5 hover:text-foreground'
+                          }`}
+                        >
+                          <ItemIcon className={`h-3.5 w-3.5 shrink-0 ${isActive ? 'text-accent' : 'text-muted-foreground'}`} />
+                          <span className="truncate">{item.label}</span>
+                        </button>
+                      );
+                    })}
+                  </nav>
+                </CollapsibleContent>
+              </Collapsible>
+            );
+          })}
+        </div>
+      </aside>
+
+      {/* ========== Area principal ========== */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between sticky top-0 z-10 bg-background/80 backdrop-blur-sm py-3 px-6 border-b border-border/20">
+          <h1 className="text-lg font-bold text-foreground">
+            {SECTIONS.flatMap((g) => g.items).find((i) => i.key === activeSection)?.label ?? 'Editor'}
+          </h1>
+
+          <div className="flex items-center gap-3">
+            <Button variant="outline" size="sm" onClick={() => setPreviewOpen(true)}>
+              <Eye className="h-4 w-4 mr-1" />
+              Preview
+            </Button>
+            <Button
+              size="sm"
+              onClick={handleManualSave}
+              disabled={!isDirty || saveStatus === 'saving'}
+              className={isDirty ? 'bg-accent hover:bg-accent/90 text-accent-foreground shadow-md shadow-accent/25' : ''}
+            >
+              {saveStatus === 'saving' ? (
+                <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+              ) : (
+                <Save className="h-4 w-4 mr-1" />
+              )}
+              {saveStatus === 'saving' ? 'Salvando...' : isDirty ? 'Salvar (⌘S)' : 'Salvar'}
+            </Button>
+          </div>
+        </div>
+
+        <div className="p-6">
+          {renderEditor()}
+        </div>
+      </div>
+
+      <PreviewDrawerV2
+        open={previewOpen}
+        onOpenChange={setPreviewOpen}
+        slug={lpKey}
+      />
+    </div>
   );
 }

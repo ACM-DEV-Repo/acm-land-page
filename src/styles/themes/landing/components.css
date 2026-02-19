@@ -1,0 +1,68 @@
+/* 
+  LimpMe Design System - Landing Page Components
+  Componentes glass e efeitos visuais para cliente
+*/
+
+/* Glass System – Apple-inspired vitrified glass */
+.glass {
+  background-color: hsl(var(--ds-color-glass) / var(--ds-glass-opacity));
+  backdrop-filter: blur(var(--ds-glass-blur)) saturate(1.4);
+  -webkit-backdrop-filter: blur(var(--ds-glass-blur)) saturate(1.4);
+  border: 1px solid hsl(var(--ds-border-color) / var(--ds-border-opacity));
+  border-radius: var(--ds-radius);
+  box-shadow: var(--ds-shadow);
+}
+
+.glass-strong {
+  background-color: hsl(var(--ds-color-glass) / calc(var(--ds-glass-opacity) + 0.06));
+  backdrop-filter: blur(calc(var(--ds-glass-blur) + 8px)) saturate(1.6);
+  -webkit-backdrop-filter: blur(calc(var(--ds-glass-blur) + 8px)) saturate(1.6);
+  border: 1px solid hsl(var(--ds-border-color) / calc(var(--ds-border-opacity) + 0.04));
+  border-radius: var(--ds-radius);
+  box-shadow: var(--ds-shadow-lg), inset 0 1px 0 hsl(0 0% 100% / 0.04);
+}
+
+.input-glass {
+  background-color: hsl(var(--ds-color-glass) / var(--ds-glass-opacity));
+  backdrop-filter: blur(var(--ds-glass-blur));
+  -webkit-backdrop-filter: blur(var(--ds-glass-blur));
+  border: 1px solid hsl(var(--ds-border-color) / calc(var(--ds-border-opacity) + 0.06));
+  border-radius: 9999px;
+  box-shadow: var(--ds-shadow);
+  color: hsl(var(--ds-color-text));
+}
+
+.button-glass {
+  background-color: hsl(var(--ds-color-glass) / 0.15);
+  backdrop-filter: blur(var(--ds-glass-blur));
+  -webkit-backdrop-filter: blur(var(--ds-glass-blur));
+  box-shadow: var(--ds-shadow);
+  color: hsl(var(--ds-color-text));
+}
+
+.glass-card {
+  background-color: hsl(var(--ds-color-glass) / var(--ds-glass-opacity));
+  backdrop-filter: blur(var(--ds-glass-blur)) saturate(1.4);
+  -webkit-backdrop-filter: blur(var(--ds-glass-blur)) saturate(1.4);
+  border: 1px solid hsl(var(--ds-border-color) / var(--ds-border-opacity));
+  border-radius: var(--ds-radius);
+  box-shadow: var(--ds-shadow-lg), inset 0 1px 0 hsl(0 0% 100% / 0.04);
+  color: hsl(var(--ds-color-text));
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.glass-card:hover {
+  background-color: hsl(var(--ds-color-glass) / calc(var(--ds-glass-opacity) + 0.04));
+  border-color: hsl(var(--ds-border-color) / calc(var(--ds-border-opacity) + 0.06));
+  box-shadow: var(--ds-shadow-lg), inset 0 1px 0 hsl(0 0% 100% / 0.06);
+}
+
+.glass-effect {
+  backdrop-filter: blur(var(--ds-glass-blur));
+  -webkit-backdrop-filter: blur(var(--ds-glass-blur));
+  background-color: hsl(var(--ds-color-glass) / 0.04);
+  border: 1px solid hsl(var(--ds-border-color) / var(--ds-border-opacity));
+  color: hsl(var(--ds-color-text));
+}
+
+/* hover-scale e card-hover-effect removidos - efeitos não-premium */

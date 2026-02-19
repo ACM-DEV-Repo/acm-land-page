@@ -8,9 +8,25 @@ interface DebouncedInputV2Props extends Omit<InputHTMLAttributes<HTMLInputElemen
   debounceMs?: number;
 }
 
-export const DebouncedInputV2 = memo(({ value, onDebouncedChange, debounceMs = 300, ...props }: DebouncedInputV2Props) => {
-  const [localValue, setLocalValue] = useDebouncedInput(value ?? '', onDebouncedChange, debounceMs);
-  return <Input {...props} value={localValue} onChange={(e) => setLocalValue(e.target.value)} />;
+export const DebouncedInputV2 = memo(({
+  value,
+  onDebouncedChange,
+  debounceMs = 300,
+  ...props
+}: DebouncedInputV2Props) => {
+  const [localValue, setLocalValue] = useDebouncedInput(
+    value ?? '',
+    onDebouncedChange,
+    debounceMs
+  );
+
+  return (
+    <Input
+      {...props}
+      value={localValue}
+      onChange={(e) => setLocalValue(e.target.value)}
+    />
+  );
 });
 
 DebouncedInputV2.displayName = 'DebouncedInputV2';

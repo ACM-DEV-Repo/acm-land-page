@@ -1,0 +1,172 @@
+/*
+  LimpMe Design System - Landing Page Tokens
+  Design System tokens e temas visuais para LP V2
+
+  NOTA: V2 usa runtime injection via CMSProviderV2 (não depende de data-theme).
+  Estes blocos [data-theme] servem como fallback e referência estática.
+*/
+
+/* Design System Tokens – base (fallback se nenhum token for injetado) */
+:root {
+  --ds-color-bg: 215 40% 22%;
+  --ds-color-surface: 215 35% 18%;
+  --ds-color-glass: 215 30% 15%;
+  --ds-color-text: 0 0% 100%;
+  --ds-color-text-soft: 0 0% 85%;
+  --ds-color-accent: 166 100% 44%;
+  --ds-color-btn-text: 215 40% 22%;
+  --ds-radius: 1rem;
+  --ds-shadow: 0 4px 24px hsl(0 0% 0% / 0.35);
+  --ds-shadow-lg: 0 12px 40px hsl(0 0% 0% / 0.45);
+  --ds-glass-blur: 32px;
+  --ds-glass-opacity: 0.12;
+  --ds-border-color: 0 0% 100%;
+  --ds-border-opacity: 0.10;
+}
+
+/* Theme: LimpMe Premium (navy + green) — Apple glass */
+[data-theme="premium"] {
+  --ds-color-bg: 215 45% 10%;
+  --ds-color-surface: 215 20% 14%;
+  --ds-color-glass: 215 25% 20%;
+  --ds-color-text: 0 0% 100%;
+  --ds-color-text-soft: 0 0% 75%;
+  --ds-color-accent: 160 80% 40%;
+  --ds-border-color: 215 30% 40%;
+  --ds-border-opacity: 0.12;
+  --ds-glass-opacity: 0.14;
+  --ds-glass-blur: 36px;
+
+  --background: 215 45% 8%;
+  --foreground: 0 0% 98%;
+  --muted: 215 30% 20%;
+  --muted-foreground: 0 0% 75%;
+  --card: 215 30% 20%;
+  --card-foreground: 0 0% 98%;
+}
+
+/* Theme: Grafite Premium (vitrified gray + emerald) */
+[data-theme="dark"] {
+  --ds-color-bg: 240 4% 10%;
+  --ds-color-surface: 240 4% 14%;
+  --ds-color-glass: 240 4% 16%;
+  --ds-color-text: 0 0% 98%;
+  --ds-color-text-soft: 240 4% 64%;
+  --ds-color-accent: 160 84% 39%;
+  --ds-border-color: 240 4% 28%;
+  --ds-border-opacity: 0.16;
+  --ds-glass-opacity: 0.10;
+  --ds-glass-blur: 34px;
+
+  --background: 240 4% 10%;
+  --foreground: 0 0% 98%;
+  --muted: 240 4% 16%;
+  --muted-foreground: 240 4% 64%;
+  --card: 240 4% 14%;
+  --card-foreground: 0 0% 98%;
+}
+
+/* Theme: Off White Clean (white + blue corporate) — Apple glass */
+[data-theme="offwhite"] {
+  --ds-color-bg: 213 27% 98%;
+  --ds-color-surface: 213 27% 96%;
+  --ds-color-glass: 213 20% 95%;
+  --ds-color-text: 222 47% 11%;
+  --ds-color-text-soft: 215 16% 47%;
+  --ds-color-accent: 221 83% 53%;
+  --ds-border-color: 214 32% 91%;
+  --ds-border-opacity: 0.35;
+  --ds-glass-opacity: 0.45;
+  --ds-glass-blur: 36px;
+
+  --background: 213 27% 98%;
+  --foreground: 222 47% 11%;
+  --muted: 213 20% 95%;
+  --muted-foreground: 215 16% 47%;
+  --card: 213 27% 96%;
+  --card-foreground: 222 47% 11%;
+}
+
+/* Theme: Emerald Forest (deep moss + bright emerald) — Apple glass */
+[data-theme="emerald"] {
+  --ds-color-bg: 150 40% 10%;
+  --ds-color-surface: 150 35% 14%;
+  --ds-color-glass: 150 30% 12%;
+  --ds-color-text: 152 76% 96%;
+  --ds-color-text-soft: 142 77% 73%;
+  --ds-color-accent: 160 59% 51%;
+  --ds-border-color: 152 40% 21%;
+  --ds-border-opacity: 0.12;
+  --ds-glass-opacity: 0.10;
+  --ds-glass-blur: 34px;
+
+  --background: 150 40% 10%;
+  --foreground: 152 76% 96%;
+  --muted: 150 30% 12%;
+  --muted-foreground: 142 77% 73%;
+  --card: 150 35% 14%;
+  --card-foreground: 152 76% 96%;
+}
+
+/* Theme: Sand Premium (warm sand + green + gold) — Apple glass */
+[data-theme="sand"] {
+  --ds-color-bg: 35 33% 93%;
+  --ds-color-surface: 35 28% 95%;
+  --ds-color-glass: 35 25% 92%;
+  --ds-color-text: 24 10% 10%;
+  --ds-color-text-soft: 25 6% 45%;
+  --ds-color-accent: 152 50% 36%;
+  --ds-border-color: 30 15% 80%;
+  --ds-border-opacity: 0.30;
+  --ds-glass-opacity: 0.40;
+  --ds-glass-blur: 36px;
+
+  --background: 35 33% 93%;
+  --foreground: 24 10% 10%;
+  --muted: 35 25% 92%;
+  --muted-foreground: 25 6% 45%;
+  --card: 35 28% 95%;
+  --card-foreground: 24 10% 10%;
+}
+
+/* Theme: Purple Night (indigo + violet) — Apple glass */
+[data-theme="purple"] {
+  --ds-color-bg: 271 40% 11%;
+  --ds-color-surface: 271 35% 16%;
+  --ds-color-glass: 271 30% 13%;
+  --ds-color-text: 270 100% 98%;
+  --ds-color-text-soft: 263 70% 81%;
+  --ds-color-accent: 271 91% 65%;
+  --ds-border-color: 271 40% 23%;
+  --ds-border-opacity: 0.12;
+  --ds-glass-opacity: 0.10;
+  --ds-glass-blur: 34px;
+
+  --background: 271 40% 11%;
+  --foreground: 270 100% 98%;
+  --muted: 271 30% 13%;
+  --muted-foreground: 263 70% 81%;
+  --card: 271 35% 16%;
+  --card-foreground: 270 100% 98%;
+}
+
+/* Theme: Midnight Cyan (deep indigo + electric cyan) */
+[data-theme="midnight"] {
+  --ds-color-bg: 222 50% 8%;
+  --ds-color-surface: 222 40% 12%;
+  --ds-color-glass: 222 35% 14%;
+  --ds-color-text: 190 90% 96%;
+  --ds-color-text-soft: 190 70% 70%;
+  --ds-color-accent: 187 92% 46%;
+  --ds-border-color: 192 50% 22%;
+  --ds-border-opacity: 0.14;
+  --ds-glass-opacity: 0.12;
+  --ds-glass-blur: 34px;
+
+  --background: 222 50% 8%;
+  --foreground: 190 90% 96%;
+  --muted: 222 35% 14%;
+  --muted-foreground: 190 70% 70%;
+  --card: 222 40% 12%;
+  --card-foreground: 190 90% 96%;
+}

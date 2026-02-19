@@ -1,12 +1,59 @@
-import { memo } from "react"; import { Label } from "@/components/ui/label"; import { Switch } from "@/components/ui/switch"; import { DebouncedInputV2 } from "@/components/admin/shared-v2/DebouncedInputV2"; import { DebouncedTextareaV2 } from "@/components/admin/shared-v2/DebouncedTextareaV2"; import type { V2SectionEditorProps } from "./types";
+import { memo } from 'react';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { ContactSection } from '@/lib/cms-v2/cms-types';
+import { DebouncedInputV2 } from '@/components/admin/shared-v2/DebouncedInputV2';
+import { V2SectionEditorProps } from './types';
+
 export const ContactEditorV2 = memo(({ draft, updateField }: V2SectionEditorProps) => {
-  const s = draft.contact;
-  return (<div className="rounded-3xl p-10 space-y-6">
-    <div className="flex items-center justify-between"><h2 className="text-2xl font-bold text-foreground">Contato</h2><div className="flex items-center space-x-2"><Switch checked={s?.enabled!==false} onCheckedChange={c=>updateField('contact','enabled',c)} /><Label>Ativar</Label></div></div>
-    <div className="bg-muted/20 rounded-2xl p-6 space-y-4">
-      <DebouncedInputV2 value={s?.title||''} onDebouncedChange={v=>updateField('contact','title',v)} placeholder="Título" />
-      <DebouncedTextareaV2 value={s?.subtitle||''} onDebouncedChange={v=>updateField('contact','subtitle',v)} placeholder="Subtítulo" />
-      <DebouncedInputV2 value={s?.whatsappLink||''} onDebouncedChange={v=>updateField('contact','whatsappLink',v)} placeholder="Link WhatsApp" />
+  const section = draft.contact as ContactSection | undefined;
+
+  return (
+    <div className="glass-primitive rounded-3xl p-10 space-y-6">
+      {/* Header com toggle */}
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-semibold text-foreground">Contato</h2>
+        <div className="flex items-center gap-2">
+          <Label htmlFor="contact-enabled" className="text-sm font-normal">Ativada</Label>
+          <Switch
+            id="contact-enabled"
+            checked={section?.enabled !== false}
+            onCheckedChange={(checked) => updateField('contact', 'enabled', checked)}
+          />
+        </div>
+      </div>
+
+      {/* Titulo */}
+      <div className="space-y-2">
+        <Label className="text-foreground font-semibold">Titulo</Label>
+        <DebouncedInputV2
+          value={section?.title || ''}
+          onDebouncedChange={(val) => updateField('contact', 'title', val)}
+          placeholder="Ex: Entre em Contato"
+        />
+      </div>
+
+      {/* Subtitulo */}
+      <div className="space-y-2">
+        <Label className="text-foreground font-semibold">Subtitulo</Label>
+        <DebouncedInputV2
+          value={section?.subtitle || ''}
+          onDebouncedChange={(val) => updateField('contact', 'subtitle', val)}
+          placeholder="Ex: Estamos prontos para te ajudar"
+        />
+      </div>
+
+      {/* WhatsApp Link */}
+      <div className="space-y-2">
+        <Label className="text-foreground font-semibold">Link do WhatsApp</Label>
+        <DebouncedInputV2
+          value={section?.whatsappLink || ''}
+          onDebouncedChange={(val) => updateField('contact', 'whatsappLink', val)}
+          placeholder="Ex: https://wa.me/5511999999999"
+        />
+      </div>
     </div>
-  </div>);
-}); ContactEditorV2.displayName='ContactEditorV2';
+  );
+});
+
+ContactEditorV2.displayName = 'ContactEditorV2';

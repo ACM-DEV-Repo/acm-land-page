@@ -8,9 +8,25 @@ interface DebouncedTextareaV2Props extends Omit<TextareaHTMLAttributes<HTMLTextA
   debounceMs?: number;
 }
 
-export const DebouncedTextareaV2 = memo(({ value, onDebouncedChange, debounceMs = 300, ...props }: DebouncedTextareaV2Props) => {
-  const [localValue, setLocalValue] = useDebouncedInput(value ?? '', onDebouncedChange, debounceMs);
-  return <Textarea {...props} value={localValue} onChange={(e) => setLocalValue(e.target.value)} />;
+export const DebouncedTextareaV2 = memo(({
+  value,
+  onDebouncedChange,
+  debounceMs = 300,
+  ...props
+}: DebouncedTextareaV2Props) => {
+  const [localValue, setLocalValue] = useDebouncedInput(
+    value ?? '',
+    onDebouncedChange,
+    debounceMs
+  );
+
+  return (
+    <Textarea
+      {...props}
+      value={localValue}
+      onChange={(e) => setLocalValue(e.target.value)}
+    />
+  );
 });
 
 DebouncedTextareaV2.displayName = 'DebouncedTextareaV2';

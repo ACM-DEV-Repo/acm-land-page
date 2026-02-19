@@ -4,88 +4,240 @@ import { useCMSSync } from './useCMSSync';
 
 type SaveStatus = 'idle' | 'unsaved' | 'saving' | 'success' | 'error';
 
+/**
+ * Hook de edição V2 Production — Save Manual (V2.0)
+ *
+ * Expõe updateField e updateNestedField com a mesma assinatura da V1.
+ * Modelo linear: cada LP é um JSON isolado, sem herança, sem merge.
+ * Inclui proteção de imagens contra race condition.
+ *
+ * SAVE MANUAL: Não há auto-save. O usuário salva via botão ou ⌘S.
+ * Cada edição marca isDirty=true e saveStatus='unsaved'.
+ */
 export const useAdminEditorV2Production = (lpKey: string) => {
   const [draft, setDraft] = useState<LPContent | null>(null);
   const initializedRef = useRef(false);
   const draftRef = useRef<LPContent | null>(null);
   const serverContentRef = useRef<LPContent | null>(null);
   const touchedFieldsRef = useRef<Set<string>>(new Set());
+
   const { loadFromDatabase, persistToDatabase, isSyncing, lastSavedAt } = useCMSSync(lpKey);
 
-  const protectImageFields = useCallback((draftContent: LPContent, serverContent: LPContent | null): LPContent => {
+  // Proteção de imagens — preserva URLs do servidor se o draft as perdeu acidentalmente
+  const protectImageFields = useCallback((
+    draftContent: LPContent,
+    serverContent: LPContent | null
+  ): LPContent => {
     if (!serverContent) return draftContent;
+
     const safe = JSON.parse(JSON.stringify(draftContent)) as LPContent;
-    const fields = [
-      { section: 'hero' as const, field: 'imageDesktop' }, { section: 'hero' as const, field: 'imageMobile' },
-      { section: 'about' as const, field: 'imageDesktop' }, { section: 'about' as const, field: 'imageMobile' },
-      { section: 'footer' as const, field: 'logo' }, { section: 'footer' as const, field: 'logoDesktop' }, { section: 'footer' as const, field: 'logoMobile' },
+
+    const simpleImageFields: Array<{ section: keyof LPContent; field: string }> = [
+      { section: 'hero', field: 'imageDesktop' },
+      { section: 'hero', field: 'imageMobile' },
+      { section: 'howItWorks', field: 'imageDesktop' },
+      { section: 'howItWorks', field: 'imageMobile' },
+      { section: 'process', field: 'imageDesktop' },
+      { section: 'process', field: 'imageMobile' },
+      { section: 'forWhom', field: 'imageDesktop' },
+      { section: 'forWhom', field: 'imageMobile' },
+      { section: 'about', field: 'imageDesktop' },
+      { section: 'about', field: 'imageMobile' },
+      { section: 'whyChoose', field: 'imageDesktop' },
+      { section: 'whyChoose', field: 'imageMobile' },
+      { section: 'ctaFinal', field: 'imageDesktop' },
+      { section: 'ctaFinal', field: 'imageMobile' },
+      { section: 'beforeAfter', field: 'imageDesktop' },
+      { section: 'beforeAfter', field: 'imageMobile' },
+      { section: 'footer', field: 'logo' },
+      { section: 'footer', field: 'logoDesktop' },
+      { section: 'footer', field: 'logoMobile' },
     ];
-    for (const { section, field } of fields) {
-      const touchKey = `${section}.${field}`;
+
+    for (const { section, field } of simpleImageFields) {
+      const touchKey = `${String(section)}.${field}`;
       if (touchedFieldsRef.current.has(touchKey)) continue;
-      const s = safe[section] as any; const srv = serverContent[section] as any;
-      if (s && srv && srv[field] && (!s[field] || s[field] === '')) s[field] = srv[field];
+
+      const sectionData = safe[section];
+      const serverSection = serverContent[section];
+      if (typeof sectionData !== 'object' || !sectionData) continue;
+      if (typeof serverSection !== 'object' || !serverSection) continue;
+
+      const serverVal = (serverSection as Record<string, unknown>)[field] as string | undefined;
+      const draftVal = (sectionData as Record<string, unknown>)[field] as string | undefined;
+
+      if (serverVal && (!draftVal || draftVal === '')) {
+        (sectionData as Record<string, unknown>)[field] = serverVal;
+      }
     }
+
+    // Proteger arrays de imagem: benefits.items[*].image
+    if (!touchedFieldsRef.current.has('benefits.items') && safe.benefits?.items && serverContent.benefits?.items) {
+      for (let i = 0; i < Math.min(serverContent.benefits.items.length, safe.benefits.items.length); i++) {
+        if (serverContent.benefits.items[i]?.image && (!safe.benefits.items[i]?.image || safe.benefits.items[i]?.image === '')) {
+          safe.benefits.items[i].image = serverContent.benefits.items[i].image;
+        }
+      }
+    }
+
+    // Proteger beforeAfter.images[*].before/after
+    if (!touchedFieldsRef.current.has('beforeAfter.images') && safe.beforeAfter?.images && serverContent.beforeAfter?.images) {
+      for (let i = 0; i < Math.min(serverContent.beforeAfter.images.length, safe.beforeAfter.images.length); i++) {
+        const srv = serverContent.beforeAfter.images[i];
+        const dft = safe.beforeAfter.images[i];
+        if (srv?.before && (!dft?.before || dft.before === '')) dft.before = srv.before;
+        if (srv?.after && (!dft?.after || dft.after === '')) dft.after = srv.after;
+      }
+    }
+
     return safe;
   }, []);
 
+  // Estado local de save manual (sem auto-save)
   const [isDirty, setIsDirty] = useState(false);
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
 
+  // Carregamento inicial
   useEffect(() => {
-    const init = async () => { const record = await loadFromDatabase(); if (record?.content) { setDraft(record.content); draftRef.current = record.content; serverContentRef.current = record.content; initializedRef.current = true; } };
+    const init = async () => {
+      const record = await loadFromDatabase();
+      if (record?.content) {
+        setDraft(record.content);
+        draftRef.current = record.content;
+        serverContentRef.current = record.content;
+        initializedRef.current = true;
+      }
+    };
     init();
   }, [loadFromDatabase]);
 
-  useEffect(() => { draftRef.current = draft; }, [draft]);
+  // Sync draftRef com draft state
+  useEffect(() => {
+    draftRef.current = draft;
+  }, [draft]);
 
-  const updateField = useCallback(<T extends keyof LPContent>(section: T, field: string, value: unknown) => {
+  // ======= API de Edição (compatível com V1) =======
+
+  /**
+   * Atualiza um campo direto de uma seção
+   * Ex: updateField('hero', 'title', 'Novo título')
+   */
+  const updateField = useCallback(<T extends keyof LPContent>(
+    section: T,
+    field: string,
+    value: unknown
+  ) => {
     touchedFieldsRef.current.add(`${String(section)}.${field}`);
+
     setDraft(prev => {
       if (!prev) return prev;
-      const s = prev[section];
-      if (typeof s === 'object' && s !== null && !Array.isArray(s)) {
-        setIsDirty(true); setSaveStatus('unsaved');
-        return { ...prev, [section]: { ...(s as Record<string, unknown>), [field]: value } } as LPContent;
+      const sectionData = prev[section];
+
+      if (typeof sectionData === 'object' && sectionData !== null && !Array.isArray(sectionData)) {
+        const newDraft = {
+          ...prev,
+          [section]: { ...(sectionData as Record<string, unknown>), [field]: value }
+        };
+        setIsDirty(true);
+        setSaveStatus('unsaved');
+        return newDraft as LPContent;
       }
       return prev;
     });
   }, []);
 
+  /**
+   * Atualiza um campo aninhado via dot-notation
+   * Ex: updateNestedField('hero.ctaPrimary.text', 'Comprar agora')
+   */
   const updateNestedField = useCallback((path: string, value: unknown) => {
-    const parts = path.split('.');
-    touchedFieldsRef.current.add(parts.length >= 2 ? `${parts[0]}.${parts[1]}` : path);
+    const pathParts = path.split('.');
+    touchedFieldsRef.current.add(
+      pathParts.length >= 2 ? `${pathParts[0]}.${pathParts[1]}` : path
+    );
+
     setDraft(prev => {
       if (!prev) return prev;
+
       const keys = path.split('.');
-      const update = (obj: Record<string, unknown>, ks: string[], idx: number): Record<string, unknown> => {
-        if (idx === ks.length - 1) return { ...obj, [ks[idx]]: value };
-        return { ...obj, [ks[idx]]: update((obj[ks[idx]] ?? {}) as Record<string, unknown>, ks, idx + 1) };
+      const updatePath = (obj: Record<string, unknown>, pathKeys: string[], idx: number): Record<string, unknown> => {
+        if (idx === pathKeys.length - 1) {
+          return { ...obj, [pathKeys[idx]]: value };
+        }
+        const key = pathKeys[idx];
+        const child = (obj[key] ?? {}) as Record<string, unknown>;
+        return {
+          ...obj,
+          [key]: updatePath(child, pathKeys, idx + 1)
+        };
       };
-      setIsDirty(true); setSaveStatus('unsaved');
-      return update(prev as unknown as Record<string, unknown>, keys, 0) as unknown as LPContent;
+
+      const newDraft = updatePath(prev as unknown as Record<string, unknown>, keys, 0) as unknown as LPContent;
+      setIsDirty(true);
+      setSaveStatus('unsaved');
+      return newDraft;
     });
   }, []);
 
-  const updateSection = useCallback(<T extends keyof LPContent>(section: T, data: LPContent[T]) => {
+  /**
+   * Atualiza uma seção inteira (para arrays, sectionOrder, etc.)
+   * Resolve bug C1: não faz spread em arrays
+   */
+  const updateSection = useCallback(<T extends keyof LPContent>(
+    section: T,
+    data: LPContent[T]
+  ) => {
     touchedFieldsRef.current.add(String(section));
-    setDraft(prev => { if (!prev) return prev; setIsDirty(true); setSaveStatus('unsaved'); return { ...prev, [section]: data }; });
+
+    setDraft(prev => {
+      if (!prev) return prev;
+      const newDraft = { ...prev, [section]: data };
+      setIsDirty(true);
+      setSaveStatus('unsaved');
+      return newDraft;
+    });
   }, []);
 
+  /**
+   * Save manual (botão "Salvar" ou ⌘S)
+   */
   const saveNow = useCallback(async () => {
     if (!draftRef.current) return false;
     setSaveStatus('saving');
     const safeDraft = protectImageFields(draftRef.current, serverContentRef.current);
     const success = await persistToDatabase(safeDraft);
-    if (success) { serverContentRef.current = safeDraft; touchedFieldsRef.current.clear(); setIsDirty(false); setSaveStatus('success'); setTimeout(() => setSaveStatus('idle'), 3000); } else { setSaveStatus('error'); }
+    if (success) {
+      serverContentRef.current = safeDraft;
+      touchedFieldsRef.current.clear();
+      setIsDirty(false);
+      setSaveStatus('success');
+      setTimeout(() => setSaveStatus('idle'), 3000);
+    } else {
+      setSaveStatus('error');
+    }
     return success;
   }, [persistToDatabase, protectImageFields]);
 
+  // Listener ⌘S — dispara save via hotkey:save do useGlobalHotkeys
   useEffect(() => {
-    const h = () => { if (draftRef.current && isDirty) saveNow(); };
-    window.addEventListener('hotkey:save', h);
-    return () => window.removeEventListener('hotkey:save', h);
+    const handleHotkeySave = () => {
+      if (draftRef.current && isDirty) {
+        saveNow();
+      }
+    };
+    window.addEventListener('hotkey:save', handleHotkeySave);
+    return () => window.removeEventListener('hotkey:save', handleHotkeySave);
   }, [saveNow, isDirty]);
 
-  return { draft, isDirty, isLoading: !initializedRef.current || isSyncing, saveStatus, lastSavedAt, updateField, updateNestedField, updateSection, saveNow };
+  return {
+    draft,
+    isDirty,
+    isLoading: !initializedRef.current || isSyncing,
+    saveStatus,
+    lastSavedAt,
+    updateField,
+    updateNestedField,
+    updateSection,
+    saveNow
+  };
 };

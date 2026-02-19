@@ -29,14 +29,22 @@ export const BenefitsV2 = ({ data, lpKey, couponCode }: BenefitsV2Props) => {
                 <IconBadgeV2 icon={IconComp} />
               </div>
               {item.image && (
-                <img loading="lazy" src={item.image} alt={item.title} className="w-full h-48 md:h-56 object-cover rounded-[var(--ds-radius)] mb-6" />
+                <img
+                  loading="lazy"
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-48 md:h-56 object-cover rounded-[var(--ds-radius)] mb-6"
+                />
               )}
-              <h3 className="text-xl md:text-2xl font-bold mb-4 text-foreground leading-tight">{item.title}</h3>
+              <h3 className="text-xl md:text-2xl font-bold mb-4 text-foreground leading-tight">
+                {item.title}
+              </h3>
               <p className="text-base md:text-lg text-muted-foreground leading-relaxed">{item.description}</p>
             </div>
             );
           })}
         </div>
+
         <SectionCTAV2 data={data.footerCta} lpKey={lpKey} couponCode={couponCode} />
       </div>
     </section>
