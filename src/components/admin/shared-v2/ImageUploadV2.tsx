@@ -5,7 +5,7 @@ import { compressImage } from "@/lib/imageOptimizer";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-interface ImageUploadV2Props { value?: string; onChange: (url: string) => void; label: string; recommendedSize?: string; }
+export interface ImageUploadV2Props { value?: string; onChange: (url: string) => void; label: string; recommendedSize?: string; lpKey?: string; }
 
 export const ImageUploadV2 = ({ value, onChange, label }: ImageUploadV2Props) => {
   const [uploading, setUploading] = useState(false);
