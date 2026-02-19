@@ -101,6 +101,92 @@ export type Database = {
         }
         Relationships: []
       }
+      bd_cms_form_submissions_v2: {
+        Row: {
+          created_at: string | null
+          data: Json
+          id: string
+          lp_key: string
+        }
+        Insert: {
+          created_at?: string | null
+          data?: Json
+          id?: string
+          lp_key: string
+        }
+        Update: {
+          created_at?: string | null
+          data?: Json
+          id?: string
+          lp_key?: string
+        }
+        Relationships: []
+      }
+      bd_cms_history_v2: {
+        Row: {
+          content: Json
+          created_at: string | null
+          id: string
+          lp_key: string
+          saved_by: string | null
+        }
+        Insert: {
+          content: Json
+          created_at?: string | null
+          id?: string
+          lp_key: string
+          saved_by?: string | null
+        }
+        Update: {
+          content?: Json
+          created_at?: string | null
+          id?: string
+          lp_key?: string
+          saved_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bd_cms_history_v2_lp_key_fkey"
+            columns: ["lp_key"]
+            isOneToOne: false
+            referencedRelation: "bd_cms_lp_v2"
+            referencedColumns: ["lp_key"]
+          },
+        ]
+      }
+      bd_cms_lp_v2: {
+        Row: {
+          content: Json
+          created_at: string | null
+          id: string
+          lp_key: string
+          name: string
+          slug: string
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          content?: Json
+          created_at?: string | null
+          id?: string
+          lp_key: string
+          name: string
+          slug: string
+          status?: string
+          updated_at?: string | null
+        }
+        Update: {
+          content?: Json
+          created_at?: string | null
+          id?: string
+          lp_key?: string
+          name?: string
+          slug?: string
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       hygiene_messages: {
         Row: {
           content: string
