@@ -338,6 +338,98 @@ export type Database = {
         }
         Relationships: []
       }
+      survey_responses_dynamic: {
+        Row: {
+          answers: Json
+          contact_email: string | null
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string
+          id: string
+          id_crm: string | null
+          status: string
+          survey_id: string
+          updated_at: string
+        }
+        Insert: {
+          answers?: Json
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          id_crm?: string | null
+          status?: string
+          survey_id: string
+          updated_at?: string
+        }
+        Update: {
+          answers?: Json
+          contact_email?: string | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          id?: string
+          id_crm?: string | null
+          status?: string
+          survey_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "survey_responses_dynamic_survey_id_fkey"
+            columns: ["survey_id"]
+            isOneToOne: false
+            referencedRelation: "surveys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      surveys: {
+        Row: {
+          config_json: Json | null
+          created_at: string
+          created_by: string | null
+          description: string
+          id: string
+          logos: string[] | null
+          slug: string
+          status: string
+          theme_color: string | null
+          title: string
+          updated_at: string
+          webhook_url: string | null
+        }
+        Insert: {
+          config_json?: Json | null
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          id?: string
+          logos?: string[] | null
+          slug: string
+          status?: string
+          theme_color?: string | null
+          title: string
+          updated_at?: string
+          webhook_url?: string | null
+        }
+        Update: {
+          config_json?: Json | null
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          id?: string
+          logos?: string[] | null
+          slug?: string
+          status?: string
+          theme_color?: string | null
+          title?: string
+          updated_at?: string
+          webhook_url?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
