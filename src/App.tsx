@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { LandingPageV2, LandingPagesV2, LPEditorV2 } from 'multi-lp-brz-dev';
 
 const queryClient = new QueryClient();
 
