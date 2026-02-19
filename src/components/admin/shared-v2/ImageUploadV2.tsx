@@ -84,15 +84,15 @@ export const ImageUploadV2 = ({ value, onChange, label }: ImageUploadV2Props) =>
 
   return (
     <div className="flex flex-col items-center gap-3">
-      <span className="text-sm font-semibold text-white">{label}</span>
+      <span className="text-sm font-semibold text-foreground">{label}</span>
 
       <div
         className={`
           relative w-[120px] h-[120px] rounded-full
           flex items-center justify-center
           border-2 border-dashed transition-all duration-300 cursor-pointer
-          bg-white/5 backdrop-blur-sm
-          ${dragActive ? 'border-accent bg-accent/10' : 'border-white/20 hover:border-white/40 hover:bg-white/10'}
+          bg-black/[0.03] backdrop-blur-sm
+          ${dragActive ? 'border-accent bg-accent/10' : 'border-black/[0.15] hover:border-black/[0.30] hover:bg-black/[0.06]'}
           ${uploading ? 'opacity-60 cursor-wait' : ''}
         `}
         onDragEnter={handleDrag}
@@ -133,8 +133,8 @@ export const ImageUploadV2 = ({ value, onChange, label }: ImageUploadV2Props) =>
           </>
         ) : (
           <div className="flex flex-col items-center justify-center text-center p-2">
-            <Upload className="w-5 h-5 text-white/60 mb-1" />
-            <p className="text-[10px] text-white/60 leading-tight">
+            <Upload className="w-5 h-5 text-muted-foreground mb-1" />
+            <p className="text-[10px] text-muted-foreground leading-tight">
               {uploading ? 'Enviando...' : 'Clique ou arraste'}
             </p>
           </div>

@@ -50,8 +50,8 @@ interface DesignPreset {
 const DESIGN_PRESETS: DesignPreset[] = [
   {
     id: 'premium',
-    name: 'LimpMe Premium',
-    description: 'Navy profundo + Verde LimpMe — Glass Apple',
+    name: 'Dark Blue',
+    description: 'Navy profundo + Verde vibrante — Glass Apple',
     preview: 'bg-gradient-to-br from-[#0e1724] to-[#162231]',
     values: {
       preset: 'premium',
@@ -186,6 +186,30 @@ const DESIGN_PRESETS: DesignPreset[] = [
       textPrimaryColor: '#3D1428',
       textSecondaryColor: '#8A5068',
       gradient: { from: '#FDF2F6', to: '#F9E8EF' },
+      glassIntensity: 0.45,
+      cardRoundness: 'medio' as const,
+      verticalSpacing: 'medium' as const,
+      fontFamily: 'Inter, sans-serif',
+    }
+  },
+  {
+    id: 'summit-saude',
+    name: 'Summit Saúde',
+    description: 'Cinza elegante + Cyan médico — Conferência Premium',
+    preview: 'bg-gradient-to-br from-[#F0F1F3] to-[#E4E6EA]',
+    values: {
+      preset: 'summit-saude',
+      primaryColor: '#00ACD4',
+      secondaryColor: '#0088A8',
+      backgroundColor: '#F0F1F3',
+      buttonColor: '#00ACD4',
+      titleColor: '#1A1D23',
+      borderColor: '#D1D5DB',
+      iconColor: '#00ACD4',
+      starColor: '#F59E0B',
+      textPrimaryColor: '#1A1D23',
+      textSecondaryColor: '#5A5F6B',
+      gradient: { from: '#F0F1F3', to: '#E4E6EA' },
       glassIntensity: 0.45,
       cardRoundness: 'medio' as const,
       verticalSpacing: 'medium' as const,

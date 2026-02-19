@@ -36,6 +36,8 @@ const SECTION_LABELS: Record<string, string> = {
   plans: 'Planos',
   testimonials: 'Depoimentos',
   kpis: 'KPIs',
+  speakers: 'Palestrantes',
+  sponsors: 'Patrocinadores',
   about: 'Sobre',
   contact: 'Contato',
   beforeAfter: 'Antes e Depois',

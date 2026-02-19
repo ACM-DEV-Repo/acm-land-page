@@ -274,7 +274,7 @@ export const SponsorsEditorV2 = memo(({ draft, updateSection }: V2SectionEditorP
                     className="flex items-start gap-3 p-3 border border-border/30 rounded-lg bg-background/30"
                   >
                     {/* Logo upload */}
-                    <div className="shrink-0 w-24">
+                    <div className="shrink-0 w-36">
                       <ImageUploadV2
                         value={sponsor.logo}
                         onChange={(url) => updateSponsor(tierIndex, sponsorIndex, 'logo', url)}

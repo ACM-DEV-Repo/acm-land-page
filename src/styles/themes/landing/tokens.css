@@ -24,7 +24,7 @@
   --ds-border-opacity: 0.10;
 }
 
-/* Theme: LimpMe Premium (navy + green) — Apple glass */
+/* Theme: Dark Blue (navy + green) — Apple glass */
 [data-theme="premium"] {
   --ds-color-bg: 215 45% 10%;
   --ds-color-surface: 215 20% 14%;
@@ -148,6 +148,27 @@
   --muted-foreground: 340 15% 45%;
   --card: 340 25% 95%;
   --card-foreground: 340 30% 12%;
+}
+
+/* Theme: Summit Saúde (cinza elegante + cyan médico — Conferência Premium CLARO) */
+[data-theme="summit-saude"] {
+  --ds-color-bg: 220 10% 94%;
+  --ds-color-surface: 220 8% 96%;
+  --ds-color-glass: 220 8% 93%;
+  --ds-color-text: 220 15% 12%;
+  --ds-color-text-soft: 220 8% 40%;
+  --ds-color-accent: 192 100% 42%;
+  --ds-border-color: 220 10% 82%;
+  --ds-border-opacity: 0.35;
+  --ds-glass-opacity: 0.45;
+  --ds-glass-blur: 36px;
+
+  --background: 220 10% 94%;
+  --foreground: 220 15% 12%;
+  --muted: 220 8% 93%;
+  --muted-foreground: 220 8% 40%;
+  --card: 220 8% 96%;
+  --card-foreground: 220 15% 12%;
 }
 
 /* Theme: Midnight Cyan (deep indigo + electric cyan) */
