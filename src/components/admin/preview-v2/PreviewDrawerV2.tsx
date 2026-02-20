@@ -47,7 +47,7 @@ export const PreviewDrawerV2 = ({ open, onOpenChange, slug, lpName }: PreviewDra
                 onClick={() => setViewMode('desktop')}
                 className={`rounded-md px-4 h-9 font-medium transition-all duration-200 ${
                   viewMode === 'desktop'
-                    ? 'bg-white text-black shadow-md'
+                    ? 'bg-accent text-accent-foreground shadow-md'
                     : 'text-muted-foreground hover:text-foreground hover:bg-black/[0.06]'
                 }`}
               >
@@ -60,7 +60,7 @@ export const PreviewDrawerV2 = ({ open, onOpenChange, slug, lpName }: PreviewDra
                 onClick={() => setViewMode('mobile')}
                 className={`rounded-md px-4 h-9 font-medium transition-all duration-200 ${
                   viewMode === 'mobile'
-                    ? 'bg-white text-black shadow-md'
+                    ? 'bg-accent text-accent-foreground shadow-md'
                     : 'text-muted-foreground hover:text-foreground hover:bg-black/[0.06]'
                 }`}
               >

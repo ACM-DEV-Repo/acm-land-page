@@ -90,6 +90,39 @@ export const useAdminEditorV2Production = (lpKey: string) => {
       }
     }
 
+    // Proteger testimonials.items[*].image
+    if (!touchedFieldsRef.current.has('testimonials.items') && safe.testimonials?.items && serverContent.testimonials?.items) {
+      for (let i = 0; i < Math.min(serverContent.testimonials.items.length, safe.testimonials.items.length); i++) {
+        if (serverContent.testimonials.items[i]?.image && (!safe.testimonials.items[i]?.image || safe.testimonials.items[i]?.image === '')) {
+          safe.testimonials.items[i].image = serverContent.testimonials.items[i].image;
+        }
+      }
+    }
+
+    // Proteger speakers.items[*].image
+    if (!touchedFieldsRef.current.has('speakers.items') && safe.speakers?.items && serverContent.speakers?.items) {
+      for (let i = 0; i < Math.min(serverContent.speakers.items.length, safe.speakers.items.length); i++) {
+        if (serverContent.speakers.items[i]?.image && (!safe.speakers.items[i]?.image || safe.speakers.items[i]?.image === '')) {
+          safe.speakers.items[i].image = serverContent.speakers.items[i].image;
+        }
+      }
+    }
+
+    // Proteger sponsors.tiers[*].items[*].logo
+    if (!touchedFieldsRef.current.has('sponsors.tiers') && safe.sponsors?.tiers && serverContent.sponsors?.tiers) {
+      for (let t = 0; t < Math.min(serverContent.sponsors.tiers.length, safe.sponsors.tiers.length); t++) {
+        const srvTier = serverContent.sponsors.tiers[t];
+        const dftTier = safe.sponsors.tiers[t];
+        if (srvTier?.items && dftTier?.items) {
+          for (let i = 0; i < Math.min(srvTier.items.length, dftTier.items.length); i++) {
+            if (srvTier.items[i]?.logo && (!dftTier.items[i]?.logo || dftTier.items[i]?.logo === '')) {
+              dftTier.items[i].logo = srvTier.items[i].logo;
+            }
+          }
+        }
+      }
+    }
+
     return safe;
   }, []);
 

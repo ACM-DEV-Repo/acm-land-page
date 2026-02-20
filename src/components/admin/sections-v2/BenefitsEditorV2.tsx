@@ -7,6 +7,7 @@ import { DebouncedInputV2 } from "@/components/admin/shared-v2/DebouncedInputV2"
 import { DebouncedTextareaV2 } from "@/components/admin/shared-v2/DebouncedTextareaV2";
 import { ImageUploadV2 } from "@/components/admin/shared-v2/ImageUploadV2";
 import { SectionCTAEditorV2 } from "@/components/admin/shared-v2/SectionCTAEditorV2";
+import { IconPickerV2 } from "@/components/admin/shared-v2/IconPickerV2";
 import type { BenefitsSection } from "@/lib/cms-v2/cms-types";
 import type { V2SectionEditorProps } from "./types";
 
@@ -100,7 +101,7 @@ export const BenefitsEditorV2 = memo(({
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
-                <div>
+                <div className="space-y-3">
                   <Label className="text-foreground font-semibold mb-2 block">Título</Label>
                   <DebouncedInputV2
                     value={item.title || ''}
@@ -108,6 +109,13 @@ export const BenefitsEditorV2 = memo(({
                     className="input-admin"
                     placeholder="Ex: Praticidade"
                   />
+                  <div className="flex items-center gap-2">
+                    <Label className="text-foreground text-xs">Ícone:</Label>
+                    <IconPickerV2
+                      value={item.icon}
+                      onChange={(icon) => updateItem(index, 'icon', icon)}
+                    />
+                  </div>
                 </div>
                 <div className="flex items-end">
                   <ImageUploadV2

@@ -77,14 +77,14 @@ export interface HeroSection {
 export interface BenefitsSection {
   enabled?: boolean;
   title: string;
-  items: Array<{ title: string; description: string; image: string }>;
+  items: Array<{ title: string; description: string; image: string; icon?: string }>;
   footerCta?: SectionFooterCTA;
 }
 
 export interface HowItWorksSection {
   enabled?: boolean;
   title: string;
-  steps: string[];
+  steps: Array<string | { text: string; icon?: string }>;
   imageDesktop?: string;
   imageMobile?: string;
   footerCta?: SectionFooterCTA;
@@ -130,6 +130,7 @@ export interface KpisSection {
     value: string;
     label: string;
     description?: string;
+    icon?: string;
   }>;
   footerCta?: SectionFooterCTA;
 }
@@ -164,7 +165,7 @@ export interface ProcessSection {
   enabled?: boolean;
   title: string;
   subtitle: string;
-  steps: Array<{ title: string; description: string }>;
+  steps: Array<{ title: string; description: string; icon?: string }>;
   imageDesktop?: string;
   imageMobile?: string;
   footerCta?: SectionFooterCTA;
@@ -196,7 +197,7 @@ export interface WhyChooseSection {
   enabled?: boolean;
   title: string;
   subtitle: string;
-  items: Array<{ title: string; description: string }>;
+  items: Array<{ title: string; description: string; icon?: string }>;
   imageDesktop?: string;
   imageMobile?: string;
   footerCta?: SectionFooterCTA;

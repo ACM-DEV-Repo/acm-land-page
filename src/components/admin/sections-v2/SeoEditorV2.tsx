@@ -15,8 +15,8 @@ export const SEOEditorV2 = memo(({ draft, updateField }: V2SectionEditorProps) =
       <h2 className="text-2xl font-bold text-foreground mb-4">SEO</h2>
 
       {/* Preview Google */}
-      <div className="bg-white rounded-2xl p-6 space-y-1">
-        <p className="text-xs text-gray-500 mb-2">Prévia do Google:</p>
+      <div className="bg-muted/30 rounded-2xl p-6 space-y-1 border border-border/50">
+        <p className="text-xs text-muted-foreground mb-2">Prévia do Google:</p>
         <p className="text-[#1a0dab] text-lg font-medium line-clamp-1">
           {seo?.metaTitle || 'Título da página aparecerá aqui'}
         </p>

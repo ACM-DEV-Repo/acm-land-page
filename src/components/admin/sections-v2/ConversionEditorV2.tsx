@@ -49,25 +49,25 @@ export const ConversionEditorV2 = memo(({ draft, updateField, updateSection }: V
   const socialProof = conv.socialProof || DEFAULT_SOCIAL;
 
   const updateConv = (field: string, value: unknown) => {
-    updateSection('conversion' as any, { ...conv, [field]: value });
+    updateSection('conversion', { ...conv, [field]: value });
   };
 
   const updateCountdown = (field: string, value: unknown) => {
-    updateSection('conversion' as any, {
+    updateSection('conversion', {
       ...conv,
       countdown: { ...countdown, [field]: value },
     });
   };
 
   const updateExit = (field: string, value: unknown) => {
-    updateSection('conversion' as any, {
+    updateSection('conversion', {
       ...conv,
       exitIntent: { ...exitIntent, [field]: value },
     });
   };
 
   const updateSocial = (field: string, value: unknown) => {
-    updateSection('conversion' as any, {
+    updateSection('conversion', {
       ...conv,
       socialProof: { ...socialProof, [field]: value },
     });

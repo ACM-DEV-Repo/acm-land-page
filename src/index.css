@@ -63,6 +63,11 @@
     --admin-glass-border: 220 20% 88%;
     --admin-glass-border-opacity: 0.5;
     --admin-glass-highlight: 0 0% 100%;
+
+    /* ── UI state tokens ── */
+    --ui-success-text: 152 50% 40%;
+    --ui-info-text: 210 80% 50%;
+    --ui-warning-text: 39 87% 48%;
   }
 }
 

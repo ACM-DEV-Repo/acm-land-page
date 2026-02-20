@@ -2,8 +2,9 @@ import { LPContent } from "@/lib/cms-v2/cms-types";
 import { SectionCTAV2 } from "./SectionCTAV2";
 import { IconBadgeV2 } from "./IconBadgeV2";
 import { Shield, Clock, ThumbsUp, Star } from "lucide-react";
+import { resolveIcon } from "@/lib/cms-v2/iconResolver";
 
-const whyChooseIcons = [Shield, Clock, ThumbsUp, Star];
+const fallbackIcons = [Shield, Clock, ThumbsUp, Star];
 
 type WhyChooseV2Props = {
   data: LPContent["whyChoose"];
@@ -27,7 +28,9 @@ export const WhyChooseV2 = ({ data, lpKey, couponCode }: WhyChooseV2Props) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {data.items?.map((item, index) => {
-            const IconComp = whyChooseIcons[index % whyChooseIcons.length];
+            const IconComp = item.icon
+              ? resolveIcon(item.icon, fallbackIcons[index % fallbackIcons.length])
+              : fallbackIcons[index % fallbackIcons.length];
             return (
             <div key={index} className="glass-card p-8 md:p-10 hover:scale-[1.02] transition-all duration-300">
               <div className="flex justify-center mb-5">

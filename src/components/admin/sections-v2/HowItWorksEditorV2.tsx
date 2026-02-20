@@ -6,8 +6,15 @@ import { Plus, Trash2, GripVertical } from "lucide-react";
 import { DebouncedInputV2 } from "@/components/admin/shared-v2/DebouncedInputV2";
 import { ImageUploadV2 } from "@/components/admin/shared-v2/ImageUploadV2";
 import { SectionCTAEditorV2 } from "@/components/admin/shared-v2/SectionCTAEditorV2";
+import { IconPickerV2 } from "@/components/admin/shared-v2/IconPickerV2";
 import type { HowItWorksSection } from "@/lib/cms-v2/cms-types";
 import type { V2SectionEditorProps } from "./types";
+
+/** Helper: extrai texto do step (string legado ou objeto novo) */
+const getStepText = (step: string | { text: string; icon?: string }): string =>
+  typeof step === 'string' ? step : step.text;
+const getStepIcon = (step: string | { text: string; icon?: string }): string | undefined =>
+  typeof step === 'string' ? undefined : step.icon;
 
 export const HowItWorksEditorV2 = memo(({
   draft,
@@ -18,8 +25,8 @@ export const HowItWorksEditorV2 = memo(({
   const steps = howItWorks?.steps || [];
 
   const addStep = useCallback(() => {
-    const newSteps = [...steps, ''];
-    updateSection('howItWorks', { ...howItWorks, steps: newSteps });
+    const newSteps = [...steps, { text: '', icon: undefined }];
+    updateSection('howItWorks', { ...howItWorks, steps: newSteps as HowItWorksSection['steps'] });
   }, [steps, howItWorks, updateSection]);
 
   const removeStep = useCallback((index: number) => {
@@ -27,10 +34,16 @@ export const HowItWorksEditorV2 = memo(({
     updateSection('howItWorks', { ...howItWorks, steps: newSteps });
   }, [steps, howItWorks, updateSection]);
 
-  const updateStep = useCallback((index: number, value: string) => {
+  const updateStep = useCallback((index: number, field: 'text' | 'icon', value: string) => {
     const newSteps = [...steps];
-    newSteps[index] = value;
-    updateSection('howItWorks', { ...howItWorks, steps: newSteps });
+    const current = newSteps[index];
+    // Converter string legado pra objeto
+    const obj = typeof current === 'string'
+      ? { text: current, icon: undefined }
+      : { ...current };
+    (obj as Record<string, unknown>)[field] = value;
+    newSteps[index] = obj as { text: string; icon?: string };
+    updateSection('howItWorks', { ...howItWorks, steps: newSteps as HowItWorksSection['steps'] });
   }, [steps, howItWorks, updateSection]);
 
   return (
@@ -102,9 +115,13 @@ export const HowItWorksEditorV2 = memo(({
                 <GripVertical className="h-4 w-4" />
                 <span className="w-6 text-center">{index + 1}.</span>
               </div>
+              <IconPickerV2
+                value={getStepIcon(step)}
+                onChange={(icon) => updateStep(index, 'icon', icon)}
+              />
               <DebouncedInputV2
-                value={step || ''}
-                onDebouncedChange={(v) => updateStep(index, v)}
+                value={getStepText(step) || ''}
+                onDebouncedChange={(v) => updateStep(index, 'text', v)}
                 className="input-admin flex-1"
                 placeholder={`Passo ${index + 1}`}
               />

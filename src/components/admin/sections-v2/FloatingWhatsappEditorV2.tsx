@@ -12,7 +12,7 @@ export const FloatingWhatsappEditorV2 = memo(({ draft, updateField, updateSectio
   const sticky = wpp?.stickyCta || { enabled: false, text: 'Contratar agora', link: '#plans', scrollThreshold: 30 };
 
   const updateSticky = (field: string, value: unknown) => {
-    updateSection('floatingWhatsapp' as any, {
+    updateSection('floatingWhatsapp', {
       ...wpp,
       stickyCta: { ...sticky, [field]: value },
     });
@@ -138,7 +138,7 @@ export const FloatingWhatsappEditorV2 = memo(({ draft, updateField, updateSectio
       <div className="bg-muted/20 rounded-2xl p-6 space-y-4">
         <div className="flex items-center justify-between">
           <Label className="text-foreground font-semibold text-lg flex items-center gap-2">
-            <Smartphone className="h-5 w-5 text-blue-400" />
+            <Smartphone className="h-5 w-5 text-blue-600" />
             Sticky CTA Mobile
           </Label>
           <div className="flex items-center gap-2">
@@ -205,7 +205,7 @@ export const FloatingWhatsappEditorV2 = memo(({ draft, updateField, updateSectio
             <div className="bg-muted/10 rounded-xl p-4">
               <Label className="text-foreground text-xs font-semibold mb-2 block">Previa (Mobile)</Label>
               <div className="mx-auto w-[200px] h-10 bg-accent rounded-lg flex items-center justify-center shadow-lg">
-                <span className="text-sm font-semibold text-white">
+                <span className="text-sm font-semibold text-accent-foreground">
                   {sticky.text || 'Contratar agora'}
                 </span>
               </div>

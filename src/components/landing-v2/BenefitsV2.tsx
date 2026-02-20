@@ -2,8 +2,9 @@ import { LPContent } from "@/lib/cms-v2/cms-types";
 import { SectionCTAV2 } from "./SectionCTAV2";
 import { IconBadgeV2 } from "./IconBadgeV2";
 import { Home, Leaf, Users, Clock, Shield, Sparkles } from "lucide-react";
+import { resolveIcon } from "@/lib/cms-v2/iconResolver";
 
-const benefitIcons = [Home, Leaf, Users, Clock, Shield, Sparkles];
+const fallbackIcons = [Home, Leaf, Users, Clock, Shield, Sparkles];
 
 type BenefitsV2Props = {
   data: LPContent["benefits"];
@@ -22,7 +23,9 @@ export const BenefitsV2 = ({ data, lpKey, couponCode }: BenefitsV2Props) => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {data.items?.map((item, index) => {
-            const IconComp = benefitIcons[index % benefitIcons.length];
+            const IconComp = item.icon
+              ? resolveIcon(item.icon, fallbackIcons[index % fallbackIcons.length])
+              : fallbackIcons[index % fallbackIcons.length];
             return (
             <div key={index} className="glass-card p-8 md:p-10 text-center hover:scale-[1.02] transition-all duration-300">
               <div className="flex justify-center mb-4">

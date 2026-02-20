@@ -1,8 +1,9 @@
 import { LPContent } from "@/lib/cms-v2/cms-types";
 import { SectionCTAV2 } from "./SectionCTAV2";
 import { Calendar, MapPin, Sparkles, Camera } from "lucide-react";
+import { resolveIcon } from "@/lib/cms-v2/iconResolver";
 
-const processIcons = [Calendar, MapPin, Sparkles, Camera];
+const fallbackIcons = [Calendar, MapPin, Sparkles, Camera];
 
 type ProcessV2Props = {
   data: LPContent["process"];
@@ -26,7 +27,9 @@ export const ProcessV2 = ({ data, lpKey, couponCode }: ProcessV2Props) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {data.steps?.map((step, index) => {
-            const IconComp = processIcons[index % processIcons.length];
+            const IconComp = step.icon
+              ? resolveIcon(step.icon, fallbackIcons[index % fallbackIcons.length])
+              : fallbackIcons[index % fallbackIcons.length];
             return (
             <div key={index} className="glass-card p-8 md:p-10 hover:scale-[1.02] transition-all duration-300">
               <div className="flex items-center gap-3 mb-4">

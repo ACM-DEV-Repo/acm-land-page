@@ -7,6 +7,7 @@ import { WhyChooseSection } from '@/lib/cms-v2/cms-types';
 import { DebouncedInputV2 } from '@/components/admin/shared-v2/DebouncedInputV2';
 import { ImageUploadV2 } from '@/components/admin/shared-v2/ImageUploadV2';
 import { SectionCTAEditorV2 } from '@/components/admin/shared-v2/SectionCTAEditorV2';
+import { IconPickerV2 } from '@/components/admin/shared-v2/IconPickerV2';
 import { V2SectionEditorProps } from './types';
 
 export const WhyChooseEditorV2 = memo(({ draft, updateField, updateSection }: V2SectionEditorProps) => {
@@ -115,13 +116,20 @@ export const WhyChooseEditorV2 = memo(({ draft, updateField, updateSection }: V2
                 </Button>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <Label>Titulo</Label>
                 <DebouncedInputV2
                   value={item.title || ''}
                   onDebouncedChange={(val) => updateItem(index, 'title', val)}
                   placeholder="Ex: Profissionais qualificados"
                 />
+                <div className="flex items-center gap-2">
+                  <Label className="text-foreground text-xs">Ícone:</Label>
+                  <IconPickerV2
+                    value={item.icon}
+                    onChange={(icon) => updateItem(index, 'icon', icon)}
+                  />
+                </div>
               </div>
 
               <div className="space-y-2">

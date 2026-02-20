@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { DebouncedInputV2 } from "@/components/admin/shared-v2/DebouncedInputV2";
 import { SectionCTAEditorV2 } from "@/components/admin/shared-v2/SectionCTAEditorV2";
+import { IconPickerV2 } from "@/components/admin/shared-v2/IconPickerV2";
 import { V2SectionEditorProps } from "./types";
 
 export const KPIsEditorV2 = memo(({ draft, updateField, updateSection }: V2SectionEditorProps) => {
@@ -79,6 +80,13 @@ export const KPIsEditorV2 = memo(({ draft, updateField, updateSection }: V2Secti
                 className="input-admin"
               />
             </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Label className="text-foreground text-xs">Ícone:</Label>
+            <IconPickerV2
+              value={item.icon}
+              onChange={(icon) => updateItem(index, 'icon', icon)}
+            />
           </div>
           <div className="space-y-2">
             <Label className="text-foreground">Descrição (opcional)</Label>

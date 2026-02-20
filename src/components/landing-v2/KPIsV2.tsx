@@ -2,8 +2,9 @@ import { LPContent } from "@/lib/cms-v2/cms-types";
 import { SectionCTAV2 } from "./SectionCTAV2";
 import { IconBadgeV2 } from "./IconBadgeV2";
 import { Users, Wrench, Star } from "lucide-react";
+import { resolveIcon } from "@/lib/cms-v2/iconResolver";
 
-const kpiIcons = [Users, Wrench, Star];
+const fallbackIcons = [Users, Wrench, Star];
 
 type KPIsV2Props = {
   data: LPContent["kpis"];
@@ -23,7 +24,9 @@ export const KPIsV2 = ({ data, lpKey, couponCode }: KPIsV2Props) => {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
           {enabledKpis.map((kpi, idx) => {
-            const IconComp = kpiIcons[idx % kpiIcons.length];
+            const IconComp = kpi.icon
+              ? resolveIcon(kpi.icon, fallbackIcons[idx % fallbackIcons.length])
+              : fallbackIcons[idx % fallbackIcons.length];
             return (
             <div key={idx} className="text-center glass-card p-10 md:p-14 hover:scale-[1.03] transition-all duration-300">
               <div className="flex justify-center mb-5">

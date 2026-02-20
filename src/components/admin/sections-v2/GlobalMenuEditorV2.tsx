@@ -18,7 +18,7 @@ export const GlobalMenuEditorV2 = memo(({ draft, updateSection }: V2SectionEdito
   const menu = draft.globalMenu || DEFAULT_MENU;
 
   const updateMenu = (field: string, value: unknown) => {
-    updateSection('globalMenu' as any, { ...menu, [field]: value });
+    updateSection('globalMenu', { ...menu, [field]: value });
   };
 
   const addLink = () => {

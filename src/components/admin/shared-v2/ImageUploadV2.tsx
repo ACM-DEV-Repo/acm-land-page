@@ -12,7 +12,7 @@ interface ImageUploadV2Props {
   recommendedSize?: string;
 }
 
-export const ImageUploadV2 = ({ value, onChange, label }: ImageUploadV2Props) => {
+export const ImageUploadV2 = ({ value, onChange, label, recommendedSize }: ImageUploadV2Props) => {
   const [uploading, setUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -85,6 +85,9 @@ export const ImageUploadV2 = ({ value, onChange, label }: ImageUploadV2Props) =>
   return (
     <div className="flex flex-col items-center gap-3">
       <span className="text-sm font-semibold text-foreground">{label}</span>
+      {recommendedSize && (
+        <span className="text-[10px] text-muted-foreground">{recommendedSize}</span>
+      )}
 
       <div
         className={`
@@ -123,9 +126,14 @@ export const ImageUploadV2 = ({ value, onChange, label }: ImageUploadV2Props) =>
               className="absolute -top-1 -right-1 w-7 h-7 rounded-full shadow-lg"
               onClick={(e) => {
                 e.stopPropagation();
-                if (confirm('Remover imagem?')) {
-                  onChange('');
-                }
+                toast('Remover imagem?', {
+                  action: {
+                    label: 'Confirmar',
+                    onClick: () => onChange(''),
+                  },
+                  cancel: { label: 'Cancelar', onClick: () => {} },
+                  duration: 5000,
+                });
               }}
             >
               <X className="w-3 h-3" />
