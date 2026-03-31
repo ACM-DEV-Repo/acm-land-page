@@ -196,9 +196,12 @@ export const FormV2 = ({ data, lpKey, couponCode }: FormV2Props) => {
         }
       });
 
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
       await fetch(data.webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify({
           lp_key: lpKey,
           campos: submittedData,
@@ -207,6 +210,7 @@ export const FormV2 = ({ data, lpKey, couponCode }: FormV2Props) => {
           origin_url: window.location.href,
         }),
       });
+      clearTimeout(timeout);
     } catch (err) {
       Sentry.captureException(err, { extra: { context: 'FormV2.fireWebhook', lpKey } });
       console.warn('[FormV2] Webhook failed (non-blocking):', err);
