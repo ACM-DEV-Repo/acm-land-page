@@ -33,7 +33,7 @@ const SECTION_LABELS: Record<string, string> = {
   hero: 'Hero',
   benefits: 'Beneficios',
   howItWorks: 'Como Funciona',
-  plans: 'Planos',
+  plans: 'Produtos',
   testimonials: 'Depoimentos',
   kpis: 'KPIs',
   speakers: 'Palestrantes',
