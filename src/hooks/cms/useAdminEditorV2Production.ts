@@ -258,7 +258,7 @@ export const useAdminEditorV2Production = (lpKey: string) => {
       setSaveStatus('error');
     }
     return success;
-  }, [persistToDatabase, protectImageFields]);
+  }, [persistToDatabase, protectImageFields, lpKey]);
 
   // Listener ⌘S — dispara save via hotkey:save do useGlobalHotkeys
   useEffect(() => {

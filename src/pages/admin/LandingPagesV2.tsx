@@ -216,7 +216,7 @@ export default function LandingPagesV2() {
     if (!deleteTarget) return;
 
     if (isHomepage(deleteTarget)) {
-      toast.error('Esta LP e a pagina principal. Defina outra LP como principal antes de excluir.');
+      toast.error('Esta LP é a página principal. Defina outra LP como principal antes de excluir.');
       setIsDeleting(false);
       return;
     }
@@ -275,7 +275,7 @@ export default function LandingPagesV2() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="slug">Endereco da pagina</Label>
+                    <Label htmlFor="slug">Endereço da página</Label>
                     <Input
                       id="slug"
                       placeholder="Gerado automaticamente"
@@ -512,7 +512,7 @@ export default function LandingPagesV2() {
               />
             </div>
             <div className="space-y-2">
-              <Label>Endereco da pagina</Label>
+              <Label>Endereço da página</Label>
               <Input
                 value={duplicateData.slug}
                 onChange={(e) => {
